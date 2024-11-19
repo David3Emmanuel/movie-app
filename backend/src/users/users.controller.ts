@@ -1,12 +1,20 @@
 import { Controller, Get, Request, UseGuards } from '@nestjs/common'
 import { JWTAuthGuard } from 'src/auth/jwt-auth.guard'
-import { User } from './User'
+import { PublicUser } from 'src/schemas/user.schema'
+import { UsersService } from './users.service'
 
 @Controller('users')
 export class UsersController {
+  constructor(private usersService: UsersService) {}
+
+  @Get()
+  async getAllUsers() {
+    return await this.usersService.getUsers() //.map((user) => user.asPublic())
+  }
+
   @Get('me')
   @UseGuards(JWTAuthGuard)
-  getCurrentUser(@Request() req: Request & { user: User }) {
+  getCurrentUser(@Request() req: Request & { user: PublicUser }) {
     return req.user
   }
 }

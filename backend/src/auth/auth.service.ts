@@ -1,8 +1,8 @@
 import { Injectable, ConflictException } from '@nestjs/common'
 import { UsersService } from 'src/users/users.service'
-import { RawUser, User } from 'src/users/User'
 import { JwtService } from '@nestjs/jwt'
-import { SignUpDTO } from './auth.dto'
+import { LoginDTO, SignUpDTO } from './auth.dto'
+import { asPublicUser, PublicUser } from 'src/schemas/user.schema'
 
 @Injectable()
 export class AuthService {
@@ -11,26 +11,20 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  validateUser({ username, password }: { username: string; password: string }) {
-    const user = this.usersService.getUserByUsername(username)
-    if (user && user.password === password) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { password, ...rest } = user
-
-      return rest as Omit<RawUser, 'password'>
-    }
+  async validateUser({ username, password }: LoginDTO) {
+    const user = await this.usersService.getRawUser(username)
+    if (user && user.passwordHash === password) return asPublicUser(user)
 
     return null
   }
 
-  createUser({ username, password }: SignUpDTO) {
-    const user = this.usersService.getUserByUsername(username)
+  async createUser({ username, password }: SignUpDTO) {
+    const user = await this.usersService.getUserByUsername(username)
     if (user) throw new ConflictException()
     this.usersService.createUser(username, password)
   }
 
-  login(user: User) {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async login(user: PublicUser) {
     return {
       access_token: this.jwtService.sign(user),
     }
