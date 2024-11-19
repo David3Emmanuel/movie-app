@@ -1,0 +1,16 @@
+{
+  "name": "@project/tmdb",
+  "version": "0.0.0",
+  "description": "Custom TMDb API wrapper",
+  "main": "dist/index.js",
+  "types": "./types",
+  "scripts": {
+    "build": "tsc && tsc-alias"
+  },
+  "author": "David3Emmanuel",
+  "license": "ISC",
+  "devDependencies": {
+    "tsc-alias": "^1.8.10",
+    "typescript": "^5.8.0-dev.20241119"
+  }
+}

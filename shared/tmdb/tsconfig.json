@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "strict": true,
+    "target": "ES2021",
+    "declaration": true,
+    "declarationDir": "./types",
+
+    "module": "CommonJS"
+  },
+  "tsc-alias": {
+    "resolveFullPaths": true
+  },
+  "include": ["./src/**/*"]
+}

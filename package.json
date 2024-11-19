@@ -1,0 +1,9 @@
+{
+    "name": "project",
+    "private": true,
+    "workspaces": [
+        "frontend",
+        "backend",
+        "shared/tmdb"
+    ]
+}
