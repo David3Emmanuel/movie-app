@@ -10,6 +10,12 @@ export class MovieDBService {
   }
 
   search(searchQuery: SearchQueryDto) {
+    if (searchQuery.type === MediaType.Movie)
+      return this.tmdb.searchMovie(searchQuery.query)
+    if (searchQuery.type === MediaType.TV)
+      return this.tmdb.searchTV(searchQuery.query)
+
+    return this.tmdb.searchMulti(searchQuery.query)
   }
 
   getDetails(getDetailsQuery: GetDetailsQueryDto) {
