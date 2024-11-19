@@ -15,6 +15,7 @@ import { MongooseModule } from '@nestjs/mongoose'
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
         uri: config.getOrThrow<string>('MONGODB_URI'),
+        dbName: 'movie_app',
       }),
     }),
   ],
