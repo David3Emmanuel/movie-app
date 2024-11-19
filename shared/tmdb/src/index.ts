@@ -1,3 +1,9 @@
+import {
+  createMovieDetailsUrl,
+  createTVDetailsUrl,
+  getDetails,
+} from './details'
+import type { MovieDetailsDTO, TVSeriesDetailsDTO } from './details.types'
 import { createSearchUrl, fetchAllPages } from './search'
 import type {
   MovieDTO,
@@ -65,6 +71,18 @@ export class TMDb {
       createSearchUrl(this.apiKey, 'multi', encodedQuery, page, includeAdult)
 
     return fetchAllPages<MultiDTO>(url)
+  }
+
+  getMovieDetails(id: number) {
+    const url = createMovieDetailsUrl(this.apiKey, id)
+    return getDetails<MovieDetailsDTO>(url)
+  }
+
+  getTVDetails(id: number) {
+    const url = createTVDetailsUrl(this.apiKey, id)
+    return getDetails<TVSeriesDetailsDTO>(url)
+  }
+
 }
 export enum MediaType {
   Movie = 'movie',

@@ -19,6 +19,9 @@ export class MovieDBService {
   }
 
   getDetails(getDetailsQuery: GetDetailsQueryDto) {
+    if (getDetailsQuery.type === MediaType.Movie)
+      return this.tmdb.getMovieDetails(getDetailsQuery.id)
+    return this.tmdb.getTVDetails(getDetailsQuery.id)
   }
 
   discover(type: MediaType) {
