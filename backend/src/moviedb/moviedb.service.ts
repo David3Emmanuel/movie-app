@@ -25,5 +25,7 @@ export class MovieDBService {
   }
 
   discover(type: MediaType) {
+    if (type === MediaType.Movie) return this.tmdb.discoverMovie()
+    else if (type === MediaType.TV) return this.tmdb.discoverTV()
   }
 }

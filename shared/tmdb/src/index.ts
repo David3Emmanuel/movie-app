@@ -83,6 +83,21 @@ export class TMDb {
     return getDetails<TVSeriesDetailsDTO>(url)
   }
 
+  discoverMovie() {
+    return fetch(
+      `https://api.themoviedb.org/3/discover/movie?api_key=${this.apiKey}`,
+    )
+      .then((res) => res.json())
+      .then((data: SearchResults<MovieDTO>) => data.results)
+  }
+
+  discoverTV() {
+    return fetch(
+      `https://api.themoviedb.org/3/discover/tv?api_key=${this.apiKey}`,
+    )
+      .then((res) => res.json())
+      .then((data: SearchResults<TVSeriesDTO>) => data.results)
+  }
 }
 export enum MediaType {
   Movie = 'movie',
