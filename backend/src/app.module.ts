@@ -1,12 +1,8 @@
 import { Module } from '@nestjs/common'
-import { AppController } from './app.controller'
-import { MovieDBController } from './moviedb/moviedb.controller'
-import { MovieDBService } from './moviedb/moviedb.service'
 import { ConfigModule } from '@nestjs/config'
+import { MovieDBModule } from './moviedb/moviedb.module'
 
 @Module({
-  imports: [ConfigModule.forRoot()],
-  controllers: [AppController, MovieDBController],
-  providers: [MovieDBService],
+  imports: [ConfigModule.forRoot(), MovieDBModule],
 })
 export class AppModule {}
