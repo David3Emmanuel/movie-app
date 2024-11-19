@@ -6,6 +6,7 @@ import { MediaType, TMDb } from '@project/tmdb'
 export class MovieDBService {
   tmdb: TMDb
   constructor() {
+    if (!process.env.TMDB_API_KEY) throw new Error()
     this.tmdb = new TMDb(process.env.TMDB_API_KEY)
   }
 

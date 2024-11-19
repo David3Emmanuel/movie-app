@@ -1,6 +1,8 @@
 import type { MediaDTO, SearchResults } from './search.types'
 import { MediaType } from './index'
 
+// IDEA try streaming
+
 export async function search<T extends MediaDTO>(
   url: string | URL,
 ): Promise<SearchResults<T>> {
