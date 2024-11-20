@@ -195,6 +195,9 @@ export default {
       },
     },
     extend: {
+      screens: {
+        xs: '480px',
+      },
       fontSize: {
         t1: ['0.6875rem', '1.125rem'],
         t2: ['0.75rem', '1.25rem'],

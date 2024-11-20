@@ -1,4 +1,13 @@
+import { Metadata } from 'next'
 import { Nunito, Poppins } from 'next/font/google'
+import './globals.css'
+
+export const metadata: Metadata = {
+  title: {
+    default: 'PLAYCINE - Discover Unlimited Movies and TV Shows',
+    template: '%s | PLAYCINE',
+  },
+}
 
 const poppins = Poppins({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
@@ -12,8 +21,6 @@ const nunito = Nunito({
   variable: '--font-nunito',
 })
 
-import './globals.css'
-
 export default function RootLayout({
   children,
 }: {
@@ -22,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body
-        className={`${poppins.className} ${nunito.variable} ${poppins.variable}`}
+        className={`bg-black text-white w-screen overflow-x-hidden min-h-screen ${poppins.className} ${nunito.variable} ${poppins.variable}`}
       >
         {children}
       </body>
