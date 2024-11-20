@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
+import { SignUpDTO } from 'src/auth/auth.dto'
 import { asPublicUser, extractUser, User } from 'src/schemas/user.schema'
 
 @Injectable()
@@ -13,18 +14,22 @@ export class UsersService {
     )
   }
 
-  async getRawUser(username: string) {
-    const userDocument = await this.model.findOne({ username }).exec()
+  async getRawUserByEmail(email: string) {
+    const userDocument = await this.model.findOne({ email }).exec()
     return userDocument && extractUser(userDocument)
   }
 
-  async getUserByUsername(username: string) {
-    const user = await this.getRawUser(username)
+  async getUserByEmail(email: string) {
+    const user = await this.getRawUserByEmail(email)
     return user && asPublicUser(user)
   }
 
-  async createUser(username: string, password: string) {
+  async createUser(userDetails: SignUpDTO) {
     // FIXME hash passwords before storing
-    this.model.create({ username, passwordHash: password })
+    this.model.create({
+      ...userDetails,
+      password: undefined,
+      passwordHash: userDetails.password,
+    })
   }
 }

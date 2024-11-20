@@ -1,10 +1,12 @@
-import { IsNotEmpty } from 'class-validator'
+import { IsEmail, IsNotEmpty } from 'class-validator'
 
 export class UserCredentials {
-  @IsNotEmpty() username: string
+  @IsEmail() email: string
   @IsNotEmpty() password: string
 }
 
-export class SignUpDTO extends UserCredentials {}
+export class SignUpDTO extends UserCredentials {
+  @IsNotEmpty() username: string
+}
 
 export class LoginDTO extends UserCredentials {}

@@ -5,6 +5,7 @@ export type PublicUser = Omit<User, 'passwordHash'>
 
 @Schema()
 export class User {
+  @Prop({ required: true, match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ }) email: string
   @Prop({ required: true }) username: string
   @Prop({ required: true }) passwordHash: string
 }

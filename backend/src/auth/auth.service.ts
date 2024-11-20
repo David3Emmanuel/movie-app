@@ -11,17 +11,17 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser({ username, password }: LoginDTO) {
-    const user = await this.usersService.getRawUser(username)
+  async validateUser({ email, password }: LoginDTO) {
+    const user = await this.usersService.getRawUserByEmail(email)
     if (user && user.passwordHash === password) return asPublicUser(user)
 
     return null
   }
 
-  async createUser({ username, password }: SignUpDTO) {
-    const user = await this.usersService.getUserByUsername(username)
+  async createUser(userDetails: SignUpDTO) {
+    const user = await this.usersService.getUserByEmail(userDetails.email)
     if (user) throw new ConflictException()
-    this.usersService.createUser(username, password)
+    this.usersService.createUser(userDetails)
   }
 
   async login(user: PublicUser) {
