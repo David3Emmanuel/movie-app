@@ -15,7 +15,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <p>Frontend Home Page</p>
+      <h1>Frontend Home Page</h1>
       <p>Backend URL - [{process.env.BACKEND_URL}]</p>
       <p>Backend Message - {messageFromBackend}</p>
     </>

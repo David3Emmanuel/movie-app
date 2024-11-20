@@ -9,7 +9,7 @@ export class UsersController {
 
   @Get()
   async getAllUsers() {
-    return await this.usersService.getUsers() //.map((user) => user.asPublic())
+    return await this.usersService.getUsers()
   }
 
   @Get('me')
