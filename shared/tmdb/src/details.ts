@@ -13,7 +13,5 @@ export function createTVDetailsUrl(apiKey: string, id: number) {
 }
 
 export async function getDetails<T>(url: string | URL) {
-  return fetch(url)
-    .then((res) => res.json())
-    .then((data) => data as T | DetailsErrorDTO)
+  return extendFetch<T | DetailsErrorDTO>(url)
 }

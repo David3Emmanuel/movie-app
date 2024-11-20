@@ -6,8 +6,7 @@ import { MediaType } from './index'
 export async function search<T extends MediaDTO>(
   url: string | URL,
 ): Promise<SearchResults<T>> {
-  return fetch(url)
-    .then((res) => res.json())
+  return extendFetch(url)
     .then((data) => {
       if (data.page) return data as SearchResults<T>
       else throw data
