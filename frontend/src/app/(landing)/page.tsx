@@ -1,7 +1,11 @@
 import Button from '@/components/Button'
 import LandingHeader from './LandingHeader'
+import isLoggedIn from '@/utils/isLoggedIn'
+import { redirect } from 'next/navigation'
 
 export default async function LandingPage() {
+  if (await isLoggedIn()) redirect('/home')
+
   return (
     <>
       <LandingHeader />
@@ -12,7 +16,7 @@ export default async function LandingPage() {
         {/* IDEA add subheading */}
         {/* IDEA background images */}
         {/* IDEA movie posters */}
-        <Button className='mx-auto my-10 rounded-full'>
+        <Button className='mx-auto my-10 rounded-full' href='/auth'>
           Discover PLAYCINE
         </Button>
       </main>

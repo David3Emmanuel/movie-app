@@ -1,6 +1,6 @@
 import Button from '@/components/Button'
 import CompoundLogo from '@/components/CompoundLogo'
-import { revalidatePath } from 'next/cache'
+import { redirect } from 'next/navigation'
 import { cookies as _cookies } from 'next/headers'
 
 export default async function LandingHeader() {
@@ -9,10 +9,9 @@ export default async function LandingHeader() {
 
   async function handleLogout() {
     'use server'
-    console.log('Logging out...')
     const cookies = await _cookies()
     cookies.delete('access_token')
-    revalidatePath('/')
+    redirect('/')
   }
 
   return (

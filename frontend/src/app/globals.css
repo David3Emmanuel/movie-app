@@ -13,7 +13,7 @@ h6 {
 
 @layer components {
   .button {
-    @apply p-4 flex items-center justify-center bg-primary rounded-md text-lg;
+    @apply p-4 flex items-center justify-center bg-primary rounded-md text-lg w-fit;
     @apply hover:bg-primary-550 active:bg-primary-600 disabled:opacity-40;
   }
 

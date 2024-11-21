@@ -28,7 +28,7 @@ export default async function SignInPage({
     } else {
       const _cookies = await cookies()
       _cookies.set('access_token', data.access_token)
-      return '/'
+      return '/home'
     }
   }
 
