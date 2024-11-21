@@ -4,15 +4,19 @@ import {
   getDetails,
 } from './details'
 import type { MovieDetailsDTO, TVSeriesDetailsDTO } from './details.types'
+import { getImage, getImageConfig } from './image'
+import type { ImageConfig } from './image.types'
 import { createSearchUrl, fetchAllPages } from './search'
 import type { MovieDTO, MultiDTO, TVSeriesDTO } from './search.types'
 import { extendFetch } from './utils/fetch'
 
 export class TMDb {
   apiKey: string
+  imageConfig: Promise<ImageConfig>
 
   constructor(apiKey: string) {
     this.apiKey = apiKey
+    this.imageConfig = getImageConfig(apiKey)
   }
 
   searchMovie(
@@ -77,6 +81,14 @@ export class TMDb {
   getTVDetails(id: number) {
     const url = createTVDetailsUrl(this.apiKey, id)
     return getDetails<TVSeriesDetailsDTO>(url)
+  }
+
+  getMovieImage(id: number) {
+    return getImage(this.apiKey, id, MediaType.Movie)
+  }
+
+  getTVImage(id: number) {
+    return getImage(this.apiKey, id, MediaType.TV)
   }
 
   async discoverMovie() {

@@ -1,6 +1,10 @@
 import { Controller, Get, ParseEnumPipe, Query } from '@nestjs/common'
 import { MovieDBService } from './moviedb.service'
-import { GetDetailsQueryDto, SearchQueryDto } from './moviedb.dto'
+import {
+  GetDetailsQueryDto,
+  GetImageQueryDto,
+  SearchQueryDto,
+} from './moviedb.dto'
 import { MediaType } from '@project/tmdb'
 
 @Controller('moviedb')
@@ -20,5 +24,10 @@ export class MovieDBController {
   @Get('discover')
   discover(@Query('type', new ParseEnumPipe(MediaType)) type: MediaType) {
     return this.service.discover(type)
+  }
+
+  @Get('image')
+  getImage(@Query() getImageQuery: GetImageQueryDto) {
+    return this.service.getImage(getImageQuery)
   }
 }
