@@ -1,4 +1,5 @@
-import { DetailsErrorDTO } from './details.types'
+import { DetailsErrorDTO, MediaDetailsDTO } from './details.types'
+import { extendFetch } from './utils/fetch'
 
 export function createMovieDetailsUrl(apiKey: string, id: number) {
   const url = new URL(`https://api.themoviedb.org/3/movie/${id}`)
@@ -12,6 +13,6 @@ export function createTVDetailsUrl(apiKey: string, id: number) {
   return url
 }
 
-export async function getDetails<T>(url: string | URL) {
+export async function getDetails<T extends MediaDetailsDTO>(url: string | URL) {
   return extendFetch<T | DetailsErrorDTO>(url)
 }

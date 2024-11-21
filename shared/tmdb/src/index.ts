@@ -5,12 +5,8 @@ import {
 } from './details'
 import type { MovieDetailsDTO, TVSeriesDetailsDTO } from './details.types'
 import { createSearchUrl, fetchAllPages } from './search'
-import type {
-  MovieDTO,
-  MultiDTO,
-  SearchResults,
-  TVSeriesDTO,
-} from './search.types'
+import type { MovieDTO, MultiDTO, TVSeriesDTO } from './search.types'
+import { extendFetch } from './utils/fetch'
 
 export class TMDb {
   apiKey: string

@@ -1,5 +1,6 @@
 import type { MediaDTO, SearchResults } from './search.types'
 import { MediaType } from './index'
+import { extendFetch } from './utils/fetch'
 
 // IDEA try streaming
 
