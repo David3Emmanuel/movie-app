@@ -1,7 +1,7 @@
 import type { Config } from 'tailwindcss'
 
 export default {
-  content: ['./src/app/**/*.{ts,tsx}'],
+  content: ['./src/**/*.{ts,tsx}'],
   theme: {
     colors: {
       white: '#FFFFFF',
@@ -51,7 +51,9 @@ export default {
         200: '#F3F4F6',
         250: '#EAECF0',
         300: '#DEE1E6',
+        400: '#BDC1CA',
         700: '#323743',
+        800: '#1E2128',
       },
       info: {
         '100': '#f1f8fd',
