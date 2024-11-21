@@ -24,7 +24,12 @@ export default async function AuthForm<T extends Record<string, string>>({
   const handleSubmit = async (formData: FormData) => {
     'use server'
     if (action) {
-      const url = await action(Object.fromEntries(formData) as T)
+      let url: string | null = null
+      try {
+        url = (await action(Object.fromEntries(formData) as T)) || null
+      } catch (e) {
+        console.error(e)
+      }
       if (url) redirect(url)
     }
   }
