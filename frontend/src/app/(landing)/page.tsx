@@ -1,7 +1,7 @@
 import Button from '@/components/Button'
 import LandingHeader from './LandingHeader'
 
-export default async function HomePage() {
+export default async function LandingPage() {
   return (
     <>
       <LandingHeader />
