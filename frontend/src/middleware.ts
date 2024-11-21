@@ -1,6 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+function setUserCookies(
+  response: NextResponse,
+  username: string,
+  email: string,
+  userId: string,
+) {
+  response.cookies.set('username', username)
+  response.cookies.set('email', email)
+  response.cookies.set('user_id', userId)
+}
+
+function deleteUserCookies(response: NextResponse) {
+  response.cookies.delete('username')
+  response.cookies.delete('email')
+  response.cookies.delete('user_id')
+}
+
 export async function middleware(req: NextRequest) {
+  const response = NextResponse.next()
   const token = req.cookies.get('access_token')?.value
   if (token) {
     const username = req.cookies.get('username')?.value
@@ -15,28 +33,16 @@ export async function middleware(req: NextRequest) {
       })
       const data = await res.json()
       if (data.statusCode === 401) {
-        const response = NextResponse.next()
         response.cookies.delete('access_token')
-        response.cookies.delete('username')
-        response.cookies.delete('email')
-        response.cookies.delete('user_id')
-        return response
+        deleteUserCookies(response)
       } else {
         const { username, email, _id: userId } = data
-
-        const response = NextResponse.next()
-        response.cookies.set('username', username)
-        response.cookies.set('email', email)
-        response.cookies.set('user_id', userId)
-        return response
+        setUserCookies(response, username, email, userId)
       }
     }
   } else {
-    const response = NextResponse.next()
-    response.cookies.delete('username')
-    response.cookies.delete('email')
-    response.cookies.delete('user_id')
-    return response
+    deleteUserCookies(response)
   }
-  return NextResponse.next()
+
+  return response
 }
