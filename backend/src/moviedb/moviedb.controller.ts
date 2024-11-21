@@ -4,6 +4,7 @@ import {
   GetDetailsQueryDto,
   GetImageQueryDto,
   SearchQueryDto,
+  GetTrendingQueryDto,
 } from './moviedb.dto'
 import { MediaType } from '@project/tmdb'
 
@@ -29,5 +30,10 @@ export class MovieDBController {
   @Get('image')
   getImage(@Query() getImageQuery: GetImageQueryDto) {
     return this.service.getImage(getImageQuery)
+  }
+
+  @Get('trending')
+  getTrending(@Query() getTrendingQuery: GetTrendingQueryDto) {
+    return this.service.getTrending(getTrendingQuery)
   }
 }

@@ -8,6 +8,7 @@ import { getImage, getImageConfig } from './image'
 import type { ImageConfig } from './image.types'
 import { createSearchUrl, fetchAllPages } from './search'
 import type { MovieDTO, MultiDTO, TVSeriesDTO } from './search.types'
+import { createTrendingUrl } from './trending'
 import { extendFetch } from './utils/fetch'
 
 export class TMDb {
@@ -104,8 +105,30 @@ export class TMDb {
     )
     return data.results
   }
+
+  async getTrendingMovies(timeWindow: TimeWindow = TimeWindow.Day) {
+    const url = createTrendingUrl(this.apiKey, MediaType.Movie, timeWindow)
+    const data = await extendFetch(url)
+    return data.results as MovieDTO[]
+  }
+
+  async getTrendingTVShows(timeWindow: TimeWindow = TimeWindow.Day) {
+    const url = createTrendingUrl(this.apiKey, MediaType.TV, timeWindow)
+    const data = await extendFetch(url)
+    return data.results as TVSeriesDTO[]
+  }
+
+  async getTrendingAll(timeWindow: TimeWindow = TimeWindow.Day) {
+    const url = createTrendingUrl(this.apiKey, 'all', timeWindow)
+    const data = await extendFetch(url)
+    return data.results as MultiDTO[]
+  }
 }
 export enum MediaType {
   Movie = 'movie',
   TV = 'tv',
+}
+export enum TimeWindow {
+  Day = 'day',
+  Week = 'week',
 }

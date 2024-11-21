@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common'
 import {
   GetDetailsQueryDto,
   GetImageQueryDto,
+  GetTrendingQueryDto,
   ImageType,
   SearchQueryDto,
 } from './moviedb.dto'
@@ -54,5 +55,14 @@ export class MovieDBService {
   discover(type: MediaType) {
     if (type === MediaType.Movie) return this.tmdb.discoverMovie()
     else if (type === MediaType.TV) return this.tmdb.discoverTV()
+  }
+
+  async getTrending(getTrendingQuery: GetTrendingQueryDto) {
+    if (getTrendingQuery.type === MediaType.Movie)
+      return this.tmdb.getTrendingMovies(getTrendingQuery.window)
+    if (getTrendingQuery.type === MediaType.TV)
+      return this.tmdb.getTrendingTVShows(getTrendingQuery.window)
+
+    return this.tmdb.getTrendingAll(getTrendingQuery.window)
   }
 }

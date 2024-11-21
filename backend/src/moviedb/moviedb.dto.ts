@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsNumber, IsEnum, IsOptional } from 'class-validator'
-import { MediaType } from '@project/tmdb'
+import { MediaType, TimeWindow } from '@project/tmdb'
 
 export class SearchQueryDto {
   @IsNotEmpty() query: string
@@ -21,4 +21,9 @@ export enum ImageType {
 
 export class GetImageQueryDto extends GetDetailsQueryDto {
   @IsEnum(ImageType) image_type: ImageType
+}
+
+export class GetTrendingQueryDto {
+  @IsOptional() @IsEnum(MediaType) type?: MediaType
+  @IsOptional() @IsEnum(TimeWindow) window?: TimeWindow
 }
