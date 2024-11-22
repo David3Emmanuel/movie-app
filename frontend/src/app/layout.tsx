@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body
-        className={`bg-black text-white w-screen overflow-x-hidden min-h-screen ${poppins.className} ${nunito.variable} ${poppins.variable}`}
+        className={`bg-black text-white w-screen overflow-x-hidden h-screen min-h-screen ${poppins.className} ${nunito.variable} ${poppins.variable}`}
       >
         {children}
       </body>

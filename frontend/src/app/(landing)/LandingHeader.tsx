@@ -19,20 +19,20 @@ export default async function LandingHeader() {
       <CompoundLogo />
       <div className='flex gap-4'>
         {username ? (
-          <Button className='hidden xs:flex nobg w-24 p-2 rounded-full text-xs'>
+          <Button className='hidden xs:flex nobg min-w-24 px-6 py-2 rounded-full hover:text-neutral-700'>
             {username}
           </Button>
         ) : (
           <Button
             href='/auth'
-            className='hidden xs:flex nobg w-24 p-2 rounded-full text-xs'
+            className='hidden xs:flex nobg min-w-24 px-6 py-2 rounded-full hover:text-neutral-700'
           >
             Sign In
           </Button>
         )}
         {username ? (
           <Button
-            className='text-neutral-700 bg-white hover:bg-neutral-200 active:bg-neutral-300 w-24 p-2 rounded-full text-xs'
+            className='text-neutral-700 bg-white hover:bg-neutral-200 active:bg-neutral-300 w-24 p-2 rounded-full text-sm'
             onClick={handleLogout}
           >
             Logout
@@ -40,7 +40,7 @@ export default async function LandingHeader() {
         ) : (
           <Button
             href='/auth'
-            className='text-neutral-700 bg-white hover:bg-neutral-200 active:bg-neutral-300 w-24 p-2 rounded-full text-xs'
+            className='text-neutral-700 bg-white hover:bg-neutral-200 active:bg-neutral-300 w-24 p-2 rounded-full text-sm'
           >
             Join
           </Button>

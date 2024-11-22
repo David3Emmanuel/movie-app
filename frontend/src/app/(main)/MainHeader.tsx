@@ -16,21 +16,23 @@ export default async function MainHeader() {
   }
 
   return (
-    <header className='flex p-4 font-semibold justify-between gap-8 fixed top-0 left-0 right-0'>
+    <header className='flex p-4 font-semibold justify-between gap-8 fixed top-0 left-0 right-0 z-20'>
       <CompoundLogo />
       {/* IDEA indicate active link */}
       <div className='flex gap-4 items-center'>
-        <Link href='/home'>Home</Link>
+        <Link href='/home' className='hidden xs:block'>
+          Home
+        </Link>
       </div>
       <div className='flex gap-4 flex-1 justify-end'>
         {username ? (
-          <Button className='hidden xs:flex nobg w-24 p-2 rounded-full'>
+          <Button className='hidden xs:flex nobg min-w-24 px-6 py-2 rounded-full hover:text-neutral-700'>
             {username}
           </Button>
         ) : (
           <Button
             href='/auth'
-            className='hidden xs:flex nobg w-24 p-2 rounded-full'
+            className='hidden xs:flex nobg min-w-24 px-6 py-2 rounded-full hover:text-neutral-700'
           >
             Sign In
           </Button>

@@ -11,7 +11,7 @@ export default async function MainLayout({
   return (
     <>
       <MainHeader />
-      {children}
+      <main className='h-full'>{children}</main>
     </>
   )
 }
