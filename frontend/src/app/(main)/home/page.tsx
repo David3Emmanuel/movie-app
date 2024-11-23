@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import type { MultiDTO } from '@project/tmdb/types/search.types'
 import MediaRow from '@/components/MediaRow'
 import FullWidthBackdrop from '@/components/FullWidthBackdrop'
-import { Suspense } from 'react'
+import Catalogue from '../Catalogue'
 
 export const metadata: Metadata = {
   title: 'Home',
@@ -19,16 +19,7 @@ export default async function HomePage() {
       <>
         {firstMedia && <FullWidthBackdrop media={firstMedia} />}
         <MediaRow title='Trending Now' mediaItems={trending} />
-        <Suspense>
-          <MediaRow
-            title='Discover Movies'
-            mediaItems={`${process.env.BACKEND_URL}/moviedb/discover?type=movie`}
-          />
-          <MediaRow
-            title='Discover TV Shows'
-            mediaItems={`${process.env.BACKEND_URL}/moviedb/discover?type=tv`}
-          />
-        </Suspense>
+        <Catalogue withoutTrending />
       </>
     )
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

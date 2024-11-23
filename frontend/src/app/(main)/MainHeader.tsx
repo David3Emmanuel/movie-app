@@ -3,6 +3,7 @@ import CompoundLogo from '@/components/CompoundLogo'
 import { redirect } from 'next/navigation'
 import { cookies as _cookies } from 'next/headers'
 import Link from 'next/link'
+import SearchLink from './SearchLink'
 
 export default async function MainHeader() {
   const cookies = await _cookies()
@@ -23,6 +24,7 @@ export default async function MainHeader() {
         <Link href='/home' className='hidden xs:block'>
           Home
         </Link>
+        <SearchLink />
       </div>
       <div className='flex gap-4 flex-1 justify-end'>
         {username ? (
