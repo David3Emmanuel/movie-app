@@ -6,7 +6,7 @@ export async function extendFetch<T = any>(
   try {
     const response = await fetch(url, options)
     const data = await response.json()
-    if (!data.success) {
+    if ('success' in data && !data.success) {
       if (retries === 'unlimited') return extendFetch(url, options, 'unlimited')
       if (retries > 1) return extendFetch(url, options, retries - 1)
     }
@@ -15,6 +15,7 @@ export async function extendFetch<T = any>(
   } catch (e) {
     if (retries === 'unlimited') return extendFetch(url, options, 'unlimited')
     if (retries > 1) return extendFetch(url, options, retries - 1)
+    console.error('Failed to fetch', url)
     throw e
   }
 }
