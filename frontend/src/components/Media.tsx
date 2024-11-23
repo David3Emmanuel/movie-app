@@ -1,7 +1,7 @@
 import { MediaType } from '@project/tmdb'
 import { ImageWithSrc } from '@project/tmdb/types/image.types'
 import type { MediaDTO } from '@project/tmdb/types/search.types'
-import Image from 'next/image'
+import ImageWithFallback from './ImageWithFallback'
 
 export default async function Media({ media }: { media: MediaDTO }) {
   const type = 'title' in media ? MediaType.Movie : MediaType.TV
@@ -31,15 +31,19 @@ export default async function Media({ media }: { media: MediaDTO }) {
   const title = 'title' in media ? media.title : media.name
   return (
     <div className='w-72 aspect-video relative rounded-lg overflow-hidden shrink-0 bg-neutral-600 flex items-end'>
-      {imageSrc && <Image src={imageSrc} alt={title} fill />}
+      {imageSrc && <ImageWithFallback src={imageSrc} alt={title} fill />}
       {logoSrc ? (
         <div className='m-2 h-10 w-full relative'>
-          <Image
+          <ImageWithFallback
             src={logoSrc}
             alt={title}
             fill
             className='object-contain object-bottom'
-          />
+          >
+            <h3 className='text-lg font-bold m-1 w-full truncate bg-neutral-600/5 p-1 rounded'>
+              {title}
+            </h3>
+          </ImageWithFallback>
         </div>
       ) : (
         <h3 className='text-lg font-bold m-1 w-full truncate bg-neutral-600/5 p-1 rounded'>
