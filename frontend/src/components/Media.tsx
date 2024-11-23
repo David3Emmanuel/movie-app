@@ -4,6 +4,8 @@ import type { MediaDTO } from '@project/tmdb/types/search.types'
 import ImageWithFallback from './ImageWithFallback'
 import { ImageType } from '@project/backend/dist/moviedb/moviedb.dto'
 import assert from 'assert'
+import Link from 'next/link'
+import formatTitle from '@/utils/formatTitle'
 
 export default async function Media({
   media,
@@ -34,14 +36,15 @@ export default async function Media({
       `${process.env.BACKEND_URL}/moviedb/image?id=${media.id}&type=${type}&image_type=logo`,
     )
     const logos = (await res.json()) as ImageWithSrc[]
-    logoSrc = logos[0].src
+    if (logos.length > 0) logoSrc = logos[0].src
   } catch (err) {
     console.error(err)
   }
 
   const title = 'title' in media ? media.title : media.name
   return (
-    <div
+    <Link
+      href={`/details/${type}-${media.id}/${formatTitle(title)}`}
       className={`${imageType === ImageType.Poster ? 'w-48' : 'w-72'} ${
         imageType === ImageType.Poster ? 'aspect-[2/3]' : 'aspect-video'
       } relative rounded-lg overflow-hidden shrink-0 bg-neutral-600 flex items-end`}
@@ -65,12 +68,16 @@ export default async function Media({
           {title}
         </h3>
       )}
-    </div>
+    </Link>
   )
 }
 
-export function MediaFallback() {
+export function MediaFallback({ imageType }: { imageType?: ImageType }) {
   return (
-    <div className='w-72 aspect-video relative rounded-lg overflow-hidden shrink-0 bg-neutral-600 flex items-end' />
+    <div
+      className={`${imageType === ImageType.Poster ? 'w-48' : 'w-72'} ${
+        imageType === ImageType.Poster ? 'aspect-[2/3]' : 'aspect-video'
+      } relative rounded-lg overflow-hidden shrink-0 bg-neutral-600 flex items-end`}
+    />
   )
 }

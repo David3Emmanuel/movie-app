@@ -11,7 +11,7 @@ interface MediaRowProps {
 
 export default function MediaRow(props: MediaRowProps) {
   return (
-    <Suspense fallback={<MediaRowFallback title={props.title} />}>
+    <Suspense fallback={<MediaRowFallback {...props} />}>
       <_MediaRow {...props} />
     </Suspense>
   )
@@ -48,7 +48,13 @@ async function _MediaRow({ title, mediaItems, imageType }: MediaRowProps) {
   )
 }
 
-function MediaRowFallback({ title }: { title: string }) {
+function MediaRowFallback({
+  title,
+  imageType,
+}: {
+  title: string
+  imageType?: ImageType
+}) {
   return (
     <div className='pl-4 pb-8'>
       <h2 className='text-xl font-semibold mt-3 mb-2'>{title}</h2>
@@ -60,7 +66,7 @@ function MediaRowFallback({ title }: { title: string }) {
         }}
       >
         {Array(5).map((_, i) => (
-          <MediaFallback key={i} />
+          <MediaFallback key={i} imageType={imageType} />
         ))}
       </div>
     </div>

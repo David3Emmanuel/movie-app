@@ -20,10 +20,10 @@ export default function Input({
   const innerStyles = `${
     overrideInnerStyles
       ? ''
-      : 'text-sm flex items-center p-3 w-full rounded-md text-black placeholder:text-neutral-400'
-  } ${inputStyle === 'line' ? 'border-b' : 'border bg-white'} ${
-    innerClassName || ''
-  }`
+      : `text-sm flex items-center p-3 w-full rounded-md text-black placeholder:text-neutral-400 ${
+          inputStyle === 'line' ? 'border-b' : 'border bg-white'
+        }`
+  } ${innerClassName || ''}`
 
   return (
     <div className={`flex flex-col gap-1 w-full ${className || ''}`}>
