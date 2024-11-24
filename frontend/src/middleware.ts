@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { fetchWithAuth } from './utils/fetchWithAuth'
 
 function setUserCookies(
   response: NextResponse,
@@ -26,11 +27,7 @@ export async function middleware(req: NextRequest) {
     const userId = req.cookies.get('user_id')?.value
 
     if (!(username && email && userId)) {
-      const res = await fetch(`${process.env.BACKEND_URL}/users/me`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      const res = await fetchWithAuth(`${process.env.BACKEND_URL}/users/me`)
       const data = await res.json()
       if (data.statusCode === 401) {
         response.cookies.delete('access_token')
