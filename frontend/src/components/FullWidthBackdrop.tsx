@@ -11,6 +11,7 @@ import { MediaType } from '@project/tmdb'
 
 import Button from '@/components/Button'
 import formatTitle from '@/utils/formatTitle'
+import WatchlistButton from '@/components/WatchlistButton'
 
 export default async function FullWidthBackdrop({
   media,
@@ -65,6 +66,7 @@ export default async function FullWidthBackdrop({
           <Button className='rounded-full w-32 xs:w-40 max-xs:text-sm'>
             Play
           </Button>
+          <WatchlistButton mediaItem={{ type, id: media.id }} />
           {withDetails ? null : (
             <Button
               href={`/details/${type}-${media.id}/${formatTitle(title)}`}
