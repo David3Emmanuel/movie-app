@@ -2,7 +2,13 @@ import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import { SignUpDTO } from 'src/auth/auth.dto'
-import { asPublicUser, extractUser, User } from 'src/schemas/user.schema'
+import {
+  asPublicUser,
+  extractUser,
+  MediaItem,
+  User,
+} from 'src/schemas/user.schema'
+import { WatchlistResponseDTO } from './users.dto'
 
 @Injectable()
 export class UsersService {
@@ -31,5 +37,54 @@ export class UsersService {
       password: undefined,
       passwordHash: userDetails.password,
     })
+  }
+
+  private async findUserById(userId: string): Promise<User | null> {
+    return this.model.findById(userId).exec()
+  }
+
+  private isMediaItemInWatchlist(user: User, mediaItem: MediaItem): boolean {
+    return user.watchlist.some(
+      (item) => item.id === mediaItem.id && item.type === mediaItem.type,
+    )
+  }
+
+  async addToWatchlist(
+    userId: string,
+    mediaItem: MediaItem,
+  ): Promise<WatchlistResponseDTO> {
+    const user = await this.findUserById(userId)
+    if (!user) {
+      return { success: false, message: 'User not found' }
+    }
+    if (this.isMediaItemInWatchlist(user, mediaItem)) {
+      return { success: false, message: 'Item already exists in watchlist' }
+    }
+    await this.model
+      .updateOne(
+        { _id: userId },
+        {
+          $addToSet: { watchlist: mediaItem },
+        },
+      )
+      .exec()
+    return { success: true, message: 'Added', media_item: mediaItem }
+  }
+
+  async removeFromWatchlist(
+    userId: string,
+    mediaItem: MediaItem,
+  ): Promise<WatchlistResponseDTO> {
+    const user = await this.findUserById(userId)
+    if (!user) {
+      return { success: false, message: 'User not found' }
+    }
+    if (!this.isMediaItemInWatchlist(user, mediaItem)) {
+      return { success: false, message: 'Item does not exist in watchlist' }
+    }
+    await this.model
+      .updateOne({ _id: userId }, { $pull: { watchlist: mediaItem } })
+      .exec()
+    return { success: true, message: 'Removed', media_item: mediaItem }
   }
 }
