@@ -1,3 +1,4 @@
+import './icons.css'
 import { Metadata } from 'next'
 import { Nunito, Poppins } from 'next/font/google'
 import './globals.css'
