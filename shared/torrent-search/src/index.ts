@@ -17,7 +17,7 @@ import ezTV from './torrent/ezTV'
 import torLock from './torrent/torLock'
 import pirateBay from './torrent/pirateBay'
 
-const validWebsites = [
+export const validWebsites = [
   '1337x',
   'nyaasi',
   'yts',
@@ -38,12 +38,14 @@ const validWebsites = [
   'all',
 ] as const
 
+export type TorrentWebsite = (typeof validWebsites)[number]
+
 async function fetchData(
   query: string,
   fetchFunction: Function,
   page?: number,
   maxPage?: number,
-): Promise<TorrentData | { error: string }> {
+): Promise<TorrentData[] | { error: string }> {
   if (maxPage && page && page > maxPage) {
     return {
       error: `Please enter page value less than ${
@@ -67,10 +69,10 @@ export default async function searchTorrents(
     website,
     page,
   }: {
-    website?: (typeof validWebsites)[number]
+    website?: TorrentWebsite
     page?: number
   },
-): Promise<TorrentData | { error: string }> {
+): Promise<TorrentData[] | { error: string }> {
   website = website || 'all'
   if (!validWebsites.includes(website)) {
     return {

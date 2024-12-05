@@ -1,7 +1,16 @@
 import * as cheerio from 'cheerio'
 import axios from 'axios'
 
-export interface TorrentData {}
+export interface TorrentData {
+  Name: string
+  Size: string
+  Category: string
+  Age: string
+  Seeders: string
+  Leechers: string
+  Torrent: string
+  Url: string
+}
 
 export default async function limeTorrent(query = '', page = 1) {
   var ALLTORRENT: TorrentData[] = []
@@ -26,14 +35,14 @@ export default async function limeTorrent(query = '', page = 1) {
       const category_and_age_split = category_and_age.split('-')
       let age = category_and_age_split[0].trim()
       let category = category_and_age_split[1].replace('in', '').trim()
-      let torrent = {
+      let torrent: TorrentData = {
         Name: $(element).find('div.tt-name').text().trim(),
         Size: $(element).find('td').eq(2).text().trim(),
         Category: category,
         Age: age,
         Seeders: $(element).find('td').eq(3).text().trim(),
         Leechers: $(element).find('td').eq(4).text().trim(),
-        Torrent: $(element).find('div.tt-name a').attr('href'),
+        Torrent: $(element).find('div.tt-name a').attr('href')!,
         Url:
           'https://www.limetorrents.pro' +
           $(element).find('div.tt-name a').next().attr('href'),

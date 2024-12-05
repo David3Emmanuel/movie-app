@@ -1,7 +1,16 @@
 import * as cheerio from 'cheerio'
 import axios from 'axios'
 
-export interface TorrentData {}
+export interface TorrentData {
+  Name: string
+  Size: string
+  DateUploaded: string
+  Category: string
+  Seeders: string
+  Leechers: string
+  Url: string
+  Magnet: string
+}
 
 export default async function magnet_dl(query = '', page = 1) {
   var ALLTORRENT: TorrentData[] = []
@@ -21,7 +30,7 @@ export default async function magnet_dl(query = '', page = 1) {
   const $ = cheerio.load(html.data)
 
   $('.download tbody tr').each((_, element) => {
-    let torrent = {
+    let torrent: TorrentData = {
       Name: $(element).find('td').eq(1).find('a').text().trim(),
       Size: $(element).find('td').eq(5).text(),
       DateUploaded: $(element).find('td').eq(2).text(),
@@ -31,7 +40,7 @@ export default async function magnet_dl(query = '', page = 1) {
       Url:
         'https://www.magnetdl.com' +
         $(element).find('td').eq(1).find('a').attr('href'),
-      Magnet: $(element).find('td').eq(0).find('a').attr('href'),
+      Magnet: $(element).find('td').eq(0).find('a').attr('href')!,
     }
     if (torrent.Name !== '') {
       ALLTORRENT.push(torrent)
