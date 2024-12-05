@@ -43,32 +43,35 @@ export default async function Media({
 
   const title = 'title' in media ? media.title : media.name
   return (
-    <Link
-      href={`/details/${type}-${media.id}/${formatTitle(title)}`}
-      className={`${imageType === ImageType.Poster ? 'w-48' : 'w-72'} ${
-        imageType === ImageType.Poster ? 'aspect-[2/3]' : 'aspect-video'
-      } relative rounded-lg overflow-hidden shrink-0 bg-neutral-600 flex items-end`}
-    >
-      {imageSrc && <ImageWithFallback src={imageSrc} alt={title} fill />}
-      {logoSrc ? (
-        <div className='m-2 h-10 w-full relative'>
-          <ImageWithFallback
-            src={logoSrc}
-            alt={title}
-            fill
-            className='object-contain object-bottom'
-          >
-            <h3 className='text-lg font-bold m-1 w-full truncate bg-neutral-600/5 p-1 rounded'>
-              {title}
-            </h3>
-          </ImageWithFallback>
-        </div>
-      ) : (
-        <h3 className='text-lg font-bold m-1 w-full truncate bg-neutral-600/5 p-1 rounded'>
-          {title}
-        </h3>
-      )}
-    </Link>
+    <div className='w-fit h-fit'>
+      <Link
+        href={`/details/${type}-${media.id}/${formatTitle(title)}`}
+        className={`${imageType === ImageType.Poster ? 'w-48' : 'w-72'} ${
+          imageType === ImageType.Poster ? 'aspect-[2/3]' : 'aspect-video'
+        } relative rounded-lg overflow-hidden shrink-0 bg-neutral-600 flex items-end`}
+      >
+        {imageSrc && <ImageWithFallback src={imageSrc} alt={title} fill />}
+        {logoSrc ? (
+          <div className='m-2 h-10 w-full relative'>
+            <ImageWithFallback
+              src={logoSrc}
+              alt={title}
+              fill
+              className='object-contain object-bottom'
+            >
+              <h3 className='text-lg font-bold m-1 w-full truncate bg-neutral-600/5 p-1 rounded'>
+                {title}
+              </h3>
+            </ImageWithFallback>
+          </div>
+        ) : (
+          <h3 className='text-lg font-bold m-1 w-full truncate bg-neutral-600/5 p-1 rounded'>
+            {title}
+          </h3>
+        )}
+      </Link>
+      <h3 className='text-lg font-bold my-1'>{title}</h3>
+    </div>
   )
 }
 
