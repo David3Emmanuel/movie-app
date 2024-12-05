@@ -4,6 +4,7 @@
     "workspaces": [
         "frontend",
         "backend",
-        "shared/tmdb"
+        "shared/tmdb",
+        "shared/torrent-search"
     ]
 }
