@@ -63,11 +63,13 @@ export default async function FullWidthBackdrop({
         )}
         {!withDetails && <p className='line-clamp-3'>{media.overview}</p>}
         <div className='flex mt-10 gap-5 items-center flex-wrap justify-center md:justify-start'>
-          <Button className='rounded-full w-32 xs:w-40 max-xs:text-sm'>
-            Play
-          </Button>
+          {withDetails && (
+            <Button className='rounded-full w-32 xs:w-40 max-xs:text-sm'>
+              Play
+            </Button>
+          )}
           <WatchlistButton mediaItem={{ type, id: media.id }} />
-          {withDetails ? null : (
+          {!withDetails && (
             <Button
               href={`/details/${type}-${media.id}/${formatTitle(title)}`}
               className='rounded-full w-32 xs:w-40 nobg border border-white max-xs:text-sm'

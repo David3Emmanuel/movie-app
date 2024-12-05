@@ -45,6 +45,17 @@ export interface MovieDetailsDTO extends MediaDetailsDTO {
   video: boolean
 }
 
+export interface SeasonInfo {
+  air_date: string
+  episode_count: number
+  id: number
+  name: string
+  overview: string
+  poster_path: string
+  season_number: number
+  vote_average: number
+}
+
 export interface TVSeriesDetailsDTO extends MediaDetailsDTO {
   created_by: any[]
   episode_run_time: number[]
@@ -78,16 +89,7 @@ export interface TVSeriesDetailsDTO extends MediaDetailsDTO {
   number_of_episodes: number
   number_of_seasons: number
   original_name: string
-  seasons: {
-    air_date: string
-    episode_count: number
-    id: number
-    name: string
-    overview: string
-    poster_path: string
-    season_number: number
-    vote_average: number
-  }[]
+  seasons: SeasonInfo[]
   type: string
 }
 
