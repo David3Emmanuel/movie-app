@@ -17,8 +17,10 @@ export async function generateMetadata({
 }: {
   params: Promise<DetailsParams>
 }): Promise<Metadata> {
-  const media = await fetchDetails(params)
-  if (!media) return {}
+  const details = await fetchDetails(params)
+  if (!details) return {}
+
+  const { media } = details
 
   const title = 'title' in media ? media.title : media.name
   return {
@@ -34,8 +36,10 @@ export default async function DetailsPage({
 }: {
   params: Promise<DetailsParams>
 }) {
-  const media = await fetchDetails(params)
-  if (!media) return <p>Resource not found</p>
+  const details = await fetchDetails(params)
+  if (!details) return <p>Resource not found</p>
+
+  const { media, id } = details
 
   const seasons =
     'seasons' in media
@@ -60,7 +64,7 @@ export default async function DetailsPage({
         </h3>
         <p>{media.overview}</p>
         {seasons.map((season, i) => (
-          <Season key={i} season={season} />
+          <Season key={i} season={season} series_id={parseInt(id)} />
         ))}
       </div>
     </>
@@ -80,5 +84,5 @@ async function fetchDetails(params: Promise<DetailsParams>) {
     | DetailsErrorDTO
   if ('success' in data) return null
 
-  return data
+  return { media: data, type, id }
 }

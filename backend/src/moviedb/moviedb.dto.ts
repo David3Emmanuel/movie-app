@@ -11,6 +11,7 @@ export class SearchQueryDto {
 export class GetDetailsQueryDto {
   @IsNumber() id: number
   @IsEnum(MediaType) type: MediaType
+  @IsOptional() @IsNumber() season?: number
 }
 
 export enum ImageType {

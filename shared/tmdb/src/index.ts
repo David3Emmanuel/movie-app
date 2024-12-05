@@ -9,6 +9,7 @@ import type { ImageConfig } from './image.types'
 import { createSearchUrl, fetchAllPages } from './search'
 import type { MovieDTO, MultiDTO, TVSeriesDTO } from './search.types'
 import { createTrendingUrl } from './trending'
+import { fetchSeasonDetails } from './tv'
 import { extendFetch } from './utils/fetch'
 
 export class TMDb {
@@ -90,6 +91,10 @@ export class TMDb {
 
   getTVImage(id: number) {
     return getImage(this.apiKey, id, MediaType.TV)
+  }
+
+  getSeasonDetails(series_id: number, season: number) {
+    return fetchSeasonDetails(this.apiKey, series_id, season)
   }
 
   async discoverMovie() {

@@ -28,6 +28,11 @@ export class MovieDBService {
   getDetails(getDetailsQuery: GetDetailsQueryDto) {
     if (getDetailsQuery.type === MediaType.Movie)
       return this.tmdb.getMovieDetails(getDetailsQuery.id)
+    if (getDetailsQuery.season !== undefined)
+      return this.tmdb.getSeasonDetails(
+        getDetailsQuery.id,
+        getDetailsQuery.season,
+      )
     return this.tmdb.getTVDetails(getDetailsQuery.id)
   }
 

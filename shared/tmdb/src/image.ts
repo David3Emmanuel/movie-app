@@ -39,6 +39,6 @@ export async function getImage(apiKey: string, id: number, type: MediaType) {
   } as MediaImageWithSrcDTO
 }
 
-function getImageSrc(filePath: string) {
+export function getImageSrc(filePath: string) {
   return `https://image.tmdb.org/t/p/original${filePath}`
 }
