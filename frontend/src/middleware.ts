@@ -27,8 +27,7 @@ export async function middleware(req: NextRequest) {
     const userId = req.cookies.get('user_id')?.value
 
     if (!(username && email && userId)) {
-      const res = await fetchWithAuth(`${process.env.BACKEND_URL}/users/me`)
-      const data = await res.json()
+      const data = await fetchWithAuth(`${process.env.BACKEND_URL}/users/me`)
       if (data.statusCode === 401) {
         response.cookies.delete('access_token')
         deleteUserCookies(response)
