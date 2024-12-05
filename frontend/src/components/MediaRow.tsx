@@ -2,10 +2,15 @@ import Media, { MediaFallback } from '@/components/Media'
 import type { MediaDTO } from '@project/tmdb/types/search.types'
 import { ImageType } from '@project/backend/dist/moviedb/moviedb.dto'
 import { Suspense } from 'react'
+import type { MediaItem } from '@project/backend/dist/schemas/user.schema'
+import type {
+  MovieDetailsDTO,
+  TVSeriesDetailsDTO,
+} from '@project/tmdb/types/details.types'
 
 interface MediaRowProps {
   title: string
-  mediaItems: MediaDTO[] | string
+  mediaItems: MediaDTO[] | MediaItem[] | string
   imageType?: ImageType
 }
 
@@ -18,11 +23,25 @@ export default function MediaRow(props: MediaRowProps) {
 }
 
 async function _MediaRow({ title, mediaItems, imageType }: MediaRowProps) {
-  let items: MediaDTO[]
+  let items: (MediaDTO | MovieDetailsDTO | TVSeriesDetailsDTO)[]
   if (typeof mediaItems === 'string') {
     const res = await fetch(mediaItems)
     items = await res.json()
-  } else items = mediaItems
+  } else
+    items = await Promise.all(
+      mediaItems.map((item) => {
+        if ('type' in item) {
+          return fetch(
+            `${process.env.BACKEND_URL}/moviedb/details?type=${item.type}&id=${item.id}`,
+          )
+            .then((res) => res.json())
+            .then((data) => {
+              if ('success' in data) throw data
+              return data as MovieDetailsDTO | TVSeriesDetailsDTO
+            })
+        } else return item
+      }),
+    )
 
   return (
     <div className='pl-4 pb-8'>

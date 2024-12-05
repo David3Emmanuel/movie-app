@@ -6,12 +6,16 @@ import { ImageType } from '@project/backend/dist/moviedb/moviedb.dto'
 import assert from 'assert'
 import Link from 'next/link'
 import formatTitle from '@/utils/formatTitle'
+import type {
+  MovieDetailsDTO,
+  TVSeriesDetailsDTO,
+} from '@project/tmdb/types/details.types'
 
 export default async function Media({
   media,
   imageType,
 }: {
-  media: MediaDTO
+  media: MediaDTO | MovieDetailsDTO | TVSeriesDetailsDTO
   imageType?: ImageType
 }) {
   const type = 'title' in media ? MediaType.Movie : MediaType.TV
