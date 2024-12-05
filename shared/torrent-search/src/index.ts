@@ -17,208 +17,117 @@ import ezTV from './torrent/ezTV'
 import torLock from './torrent/torLock'
 import pirateBay from './torrent/pirateBay'
 
+const validWebsites = [
+  '1337x',
+  'nyaasi',
+  'yts',
+  'eztv',
+  'torlock',
+  'piratebay',
+  'tgx',
+  'rarbg',
+  'zooqle',
+  'kickass',
+  'bitsearch',
+  'glodls',
+  'magnetdl',
+  'limetorrent',
+  'torrentfunk',
+  'torrentproject',
+  'ettv',
+  'all',
+] as const
+
+async function fetchData(
+  query: string,
+  fetchFunction: Function,
+  page?: number,
+  maxPage?: number,
+): Promise<TorrentData | { error: string }> {
+  if (maxPage && page && page > maxPage) {
+    return {
+      error: `Please enter page value less than ${
+        maxPage + 1
+      } to get the result :)`,
+    }
+  }
+  const data = await fetchFunction(query, page)
+  if (data === null) {
+    return { error: 'Website is blocked change IP' }
+  } else if (data.length === 0) {
+    return { error: `No search result available for query (${query})` }
+  } else {
+    return data
+  }
+}
+
 export default async function searchTorrents(
   query: string,
   {
     website,
     page,
   }: {
-    website?: string
+    website?: (typeof validWebsites)[number]
     page?: number
   },
 ): Promise<TorrentData | { error: string }> {
-  website = website?.toLowerCase() || 'all'
+  website = website || 'all'
+  if (!validWebsites.includes(website)) {
+    return {
+      error:
+        'please select ' +
+        validWebsites.join(' | ') +
+        ' (to scrap from every site)',
+    }
+  }
 
-  if (website === '1337x') {
-    if (page && page > 50) {
+  switch (website) {
+    case '1337x':
+      return fetchData(query, torrent1337x, page, 50)
+    case 'yts':
+      return fetchData(query, yts, page)
+    case 'eztv':
+      return fetchData(query, ezTV)
+    case 'torlock':
+      return fetchData(query, torLock, page)
+    case 'piratebay':
+      return fetchData(query, pirateBay, page)
+    case 'tgx':
+      return fetchData(query, torrentGalaxy, page)
+    case 'rarbg':
+      return fetchData(query, rarbg, page)
+    case 'zooqle':
+      return fetchData(query, zooqle, page)
+    case 'kickass':
+      return fetchData(query, kickAss, page)
+    case 'bitsearch':
+      return fetchData(query, bitSearch, page)
+    case 'glodls':
+      return fetchData(query, glodls, page)
+    case 'magnetdl':
+      return fetchData(query, magnet_dl, page)
+    case 'limetorrent':
+      return fetchData(query, limeTorrent, page)
+    case 'torrentfunk':
+      return fetchData(query, torrentFunk, page)
+    case 'torrentproject':
+      return fetchData(query, torrentProject, page)
+    case 'nyaasi':
+      return fetchData(query, nyaaSI, page, 14)
+    case 'ettv':
+      return fetchData(query, ettvCentral, page)
+    case 'all':
+      const data = await combo(query, page)
+      if (data !== null && data.length > 0) {
+        return data
+      } else {
+        return { error: `No search result available for query (${query})` }
+      }
+    default:
       return {
-        error: 'Please enter page value less than 51 to get the result :)',
+        error: `please select ${validWebsites.join(
+          ' | ',
+        )} (to scrap from every site)`,
       }
-    } else {
-      const data = await torrent1337x(query, page)
-      if (data === null) {
-        return { error: 'Website is blocked change IP' }
-      } else if (data.length === 0) {
-        return { error: `No search result available for query (${query})` }
-      } else {
-        return data
-      }
-    }
-  }
-  if (website === 'yts') {
-    const data = await yts(query, page)
-    if (data === null) {
-      return { error: 'Website is blocked change IP' }
-    } else if (data.length === 0) {
-      return { error: `No search result available for query (${query})` }
-    } else {
-      return data
-    }
-  }
-  if (website === 'eztv') {
-    const data = await ezTV(query)
-    if (data === null) {
-      return { error: 'Website is blocked change IP' }
-    } else if (data.length === 0) {
-      return { error: `No search result available for query (${query})` }
-    } else {
-      return data
-    }
-  }
-  if (website === 'torlock') {
-    const data = await torLock(query, page)
-    if (data === null) {
-      return { error: 'Website is blocked change IP' }
-    } else if (data.length === 0) {
-      return { error: `No search result available for query (${query})` }
-    } else {
-      return data
-    }
-  }
-  if (website === 'piratebay') {
-    const data = await pirateBay(query, page)
-    if (data === null) {
-      return { error: 'Website is blocked change IP' }
-    } else if (data.length === 0) {
-      return { error: `No search result available for query (${query})` }
-    } else {
-      return data
-    }
-  }
-  if (website === 'tgx') {
-    const data = await torrentGalaxy(query, page)
-    if (data === null) {
-      return { error: 'Website is blocked change IP' }
-    } else if (data.length === 0) {
-      return { error: `No search result available for query (${query})` }
-    } else {
-      return data
-    }
-  }
-  if (website === 'rarbg') {
-    const data = await rarbg(query, page)
-    if (data === null) {
-      return { error: 'Website is blocked change IP' }
-    } else if (data.length === 0) {
-      return { error: `No search result available for query (${query})` }
-    } else {
-      return data
-    }
-  }
-  if (website === 'zooqle') {
-    const data = await zooqle(query, page)
-    if (data === null) {
-      return { error: 'Website is blocked change IP' }
-    } else if (data.length === 0) {
-      return { error: `No search result available for query (${query})` }
-    } else {
-      return data
-    }
-  }
-  if (website === 'kickass') {
-    const data = await kickAss(query, page)
-    if (data === null) {
-      return { error: 'Website is blocked change IP' }
-    } else if (data.length === 0) {
-      return { error: `No search result available for query (${query})` }
-    } else {
-      return data
-    }
-  }
-  if (website === 'bitsearch') {
-    const data = await bitSearch(query, page)
-    if (data === null) {
-      return { error: 'Website is blocked change IP' }
-    } else if (data.length === 0) {
-      return { error: `No search result available for query (${query})` }
-    } else {
-      return data
-    }
-  }
-  if (website === 'glodls') {
-    const data = await glodls(query, page)
-    if (data === null) {
-      return { error: 'Website is blocked change IP' }
-    } else if (data.length === 0) {
-      return { error: `No search result available for query (${query})` }
-    } else {
-      return data
-    }
-  }
-  if (website === 'magnetdl') {
-    const data = await magnet_dl(query, page)
-    if (data === null) {
-      return { error: 'Website is blocked change IP' }
-    } else if (data.length === 0) {
-      return { error: `No search result available for query (${query})` }
-    } else {
-      return data
-    }
-  }
-  if (website === 'limetorrent') {
-    const data = await limeTorrent(query, page)
-    if (data === null) {
-      return { error: 'Website is blocked change IP' }
-    } else if (data.length === 0) {
-      return { error: `No search result available for query (${query})` }
-    } else {
-      return data
-    }
-  }
-  if (website === 'torrentfunk') {
-    const data = await torrentFunk(query, page)
-    if (data === null) {
-      return { error: 'Website is blocked change IP' }
-    } else if (data.length === 0) {
-      return { error: `No search result available for query (${query})` }
-    } else {
-      return data
-    }
-  }
-  if (website === 'torrentproject') {
-    const data = await torrentProject(query, page)
-    if (data === null) {
-      return { error: 'Website is blocked change IP' }
-    } else if (data.length === 0) {
-      return { error: `No search result available for query (${query})` }
-    } else {
-      return data
-    }
-  }
-  if (website === 'nyaasi') {
-    if (page && page > 14) {
-      return { error: '14 is the last page' }
-    } else {
-      const data = await nyaaSI(query, page)
-      if (data === null) {
-        return { error: 'Website is blocked change IP' }
-      } else if (data.length === 0) {
-        return { error: `No search result available for query (${query})` }
-      } else {
-        return data
-      }
-    }
-  }
-  if (website === 'ettv') {
-    const data = await ettvCentral(query, page)
-    if (data === null) {
-      return { error: 'Website is blocked change IP' }
-    } else if (data.length === 0) {
-      return { error: `No search result available for query (${query})` }
-    } else {
-      return data
-    }
-  }
-  if (website === 'all') {
-    const data = await combo(query, page)
-    if (data !== null && data.length > 0) {
-      return data
-    } else {
-      return { error: `No search result available for query (${query})` }
-    }
-  }
-  return {
-    error:
-      'please select 1337x | nyaasi | yts | Piratebay | torlock | eztv | TorrentGalaxy(tgx) | rarbg | zooqle | kickass | bitsearch | glodls | magnetdl | limetorrent | torrentfunk | torrentproject | all (to scrap from every site)',
   }
 }
