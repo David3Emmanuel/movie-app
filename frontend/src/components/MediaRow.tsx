@@ -54,8 +54,8 @@ async function _MediaRow({ title, mediaItems, imageType }: MediaRowProps) {
                 gridTemplateColumns: 'repeat(auto-fit, 12rem)',
               }
             : {
-                width: 'calc(100% + 18rem)',
-                gridTemplateColumns: 'repeat(auto-fit, 288px)',
+                width: 'calc(100% + 6rem)',
+                gridTemplateColumns: 'repeat(auto-fit, 18rem)',
               }
         }
       >
