@@ -10,7 +10,13 @@
   "author": "David3Emmanuel",
   "license": "ISC",
   "devDependencies": {
+    "@types/request-promise": "^4.1.51",
     "tsc-alias": "^1.8.10",
     "typescript": "^5.8.0-dev.20241119"
+  },
+  "dependencies": {
+    "axios": "^1.7.9",
+    "cheerio": "^1.0.0",
+    "request-promise": "^4.2.6"
   }
 }
