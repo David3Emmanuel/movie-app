@@ -20,4 +20,8 @@ h6 {
   .button.nobg {
     @apply bg-transparent hover:text-black hover:bg-neutral-250 active:bg-neutral-300 active:text-black;
   }
+
+  .button.outlined {
+    @apply border border-primary text-primary bg-transparent hover:bg-neutral-300 active:bg-neutral-400;
+  }
 }

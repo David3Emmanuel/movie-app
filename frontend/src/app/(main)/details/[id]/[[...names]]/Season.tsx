@@ -2,6 +2,7 @@ import { DetailsErrorDTO, SeasonInfo } from '@project/tmdb/types/details.types'
 import type { SeasonDetailsWithImagesDTO } from '@project/tmdb/types/tv.types'
 import { Suspense } from 'react'
 import Episode from './Episode'
+import Link from 'next/link'
 
 export default function Season({
   series_id,
@@ -10,10 +11,18 @@ export default function Season({
   series_id: number
   season: SeasonInfo
 }) {
+  const permalinkId =
+    season.season_number === 0 ? 'specials' : `s${season.season_number}`
   return (
     <div className='lg:border-t mt-3 border-dashed border-white lg:flex gap:4'>
       <div className='py-3 lg:w-1/4'>
-        <h2 className='text-xl font-semibold mb-2'>{season.name}</h2>
+        <Link
+          id={permalinkId}
+          href={`#${permalinkId}`}
+          className='text-xl font-semibold mb-3'
+        >
+          {season.name}
+        </Link>
         <p>{season.overview}</p>
       </div>
       <Suspense fallback='Loading...'>
@@ -42,7 +51,7 @@ async function Episodes({
 
   return (
     <div
-      className='grid gap-4 flex-1 py-3'
+      className='grid gap-4 flex-1 py-3 justify-center'
       style={{
         gridTemplateColumns: 'repeat(auto-fill, 14rem)',
       }}
