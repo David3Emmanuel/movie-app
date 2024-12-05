@@ -28,7 +28,10 @@ export default async function MainHeader() {
       </div>
       <div className='flex gap-4 flex-1 justify-end'>
         {username ? (
-          <Button className='hidden xs:flex nobg min-w-24 px-6 py-2 rounded-full hover:text-neutral-700'>
+          <Button
+            href='/profile'
+            className='hidden xs:flex nobg min-w-24 px-6 py-2 rounded-full hover:text-neutral-700'
+          >
             {username}
           </Button>
         ) : (
