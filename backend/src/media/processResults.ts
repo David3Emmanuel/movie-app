@@ -62,5 +62,5 @@ export default function processResults(
     }
   }
 
-  return []
+  return magnetLinks.slice(0, limit)
 }
