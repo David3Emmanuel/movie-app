@@ -52,7 +52,7 @@ export default function processResults(
     if (names.length) {
       recursiveSearch(
         result,
-        (value) => value.startsWith('magnet:'),
+        (value) => typeof value === 'string' && value.startsWith('magnet:'),
         magnetLinks,
       )
       if (magnetLinks.length >= limit) {
