@@ -50,6 +50,7 @@ export default function processResults(
       names,
     )
     if (names.length) {
+      console.log(names)
       recursiveSearch(
         result,
         (value) => typeof value === 'string' && value.startsWith('magnet:'),
