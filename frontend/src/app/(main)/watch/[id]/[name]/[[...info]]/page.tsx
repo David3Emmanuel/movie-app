@@ -1,5 +1,7 @@
 import { fetchDetails } from '@/utils/fetchDetails'
 import createTorrentQuery from '@/utils/createTorrentQuery'
+import searchTorrents from '@/utils/searchTorrents'
+import Player from './Player'
 
 export default async function WatchPage({
   params,
@@ -10,11 +12,13 @@ export default async function WatchPage({
   const detailsParam = { id, names: [name] }
 
   const details = await fetchDetails(detailsParam)
-  if (!details) return <p>Media not found</p>
+  if (!details) return <p>Could not fetch media details</p>
 
   const torrentQuery = createTorrentQuery(details, info)
+  if (!torrentQuery) return <p>Something went wrong. Please use a valid url</p>
 
-  await new Promise((resolve) => setTimeout(resolve, 10_000))
+  const torrents = await searchTorrents(torrentQuery)
+  console.log(torrents)
 
-  return torrentQuery
+  return <Player torrents={torrents} />
 }
