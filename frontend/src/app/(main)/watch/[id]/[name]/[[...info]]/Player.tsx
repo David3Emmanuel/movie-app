@@ -9,12 +9,14 @@ export default function Player({ torrents }: { torrents: TorrentInfo[] }) {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   return (
-    <div className='pt-16 flex flex-col items-center justify-center'>
+    <div className='pt-16 flex flex-col items-center justify-center h-screen overflow-y-auto'>
       {source ? (
-        <video controls className='max-w-full'>
-          <source src={source.link} type='video/mp4' />
-          Your browser does not support the video tag.
-        </video>
+        <div className='portrait:w-full landscape:h-full aspect-video mx-auto my-auto'>
+          <video controls className='object-contain w-full h-full'>
+            <source src={source.link} type='video/mp4' />
+            Your browser does not support the video tag.
+          </video>
+        </div>
       ) : (
         <Sources torrents={torrents} setSource={setSource} />
       )}
