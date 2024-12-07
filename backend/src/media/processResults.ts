@@ -1,28 +1,15 @@
 import type { TorrentData } from '@project/torrent-search/types/torrent/COMBO'
+import Fuse from 'fuse.js'
 
 export default function processResults(
   results: TorrentData[],
   query: string,
-  limit = 1,
+  limit = 5,
 ) {
-  const magnetLinks: string[] = []
-
-  const normalizeString = (str: string) =>
-    str
-      .toLowerCase()
-      .replace(/[^a-z0-9\s]/g, '')
-      .replace(/\s+/g, ' ')
-
-  const normalizedQuery = normalizeString(query)
-  const queryChunks = normalizedQuery.split(/\s+/)
-
-  const checkQueryMatch = (value: string) =>
-    queryChunks.every((chunk) => normalizeString(value).includes(chunk))
-
   function recursiveSearch(
     data: any,
     condition: (value: string) => boolean,
-    prev: any[],
+    results: any[],
   ) {
     if (Array.isArray(data)) {
       for (const item of data) {
@@ -34,33 +21,48 @@ export default function processResults(
         const value = data[key]
         if (!value) continue
         if (typeof key === 'string' && condition(value)) {
-          prev.push(value)
+          results.push(value)
         } else {
-          recursiveSearch(value, condition, prev)
+          recursiveSearch(value, condition, results)
         }
       }
     }
   }
 
-  for (const result of results) {
-    const names = []
-    recursiveSearch(
-      result,
-      (value) => typeof value === 'string' && checkQueryMatch(value),
-      names,
-    )
-    if (names.length) {
-      console.log(names)
-      recursiveSearch(
-        result,
-        (value) => typeof value === 'string' && value.startsWith('magnet:'),
-        magnetLinks,
-      )
-      if (magnetLinks.length >= limit) {
-        return magnetLinks.slice(0, limit)
-      }
-    }
-  }
+  const magnetLinks: string[] = []
 
-  return magnetLinks.slice(0, limit)
+  const startTime = Date.now()
+  recursiveSearch(
+    results,
+    (value) => typeof value === 'string' && value.startsWith('magnet:'),
+    magnetLinks,
+  )
+  const duration = (Date.now() - startTime) / 1000
+  console.log(`Found ${magnetLinks.length} magnet links in ${duration}s`)
+
+  console.log('Searching for:', query)
+
+  const processedMagnetLinks = magnetLinks.map(processMagnetLink)
+
+  const searcher = new Fuse(processedMagnetLinks, {
+    keys: ['dn'],
+  })
+  const searchResults = searcher.search(query).map((result) => result.item)
+
+  console.log(`Found ${searchResults.length} search results`)
+
+  return searchResults.slice(0, limit)
+}
+
+function processMagnetLink(link: string) {
+  const url = new URL(link)
+  const params = new URLSearchParams(url.search)
+  const info = {
+    link,
+    xt: params.get('xt') ?? undefined,
+    dn: params.get('dn')?.replace(/\./g, ' '),
+    tr: params.getAll('tr'),
+    ws: params.getAll('ws'),
+  }
+  return info
 }
