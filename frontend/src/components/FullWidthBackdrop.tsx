@@ -12,6 +12,7 @@ import { MediaType } from '@project/tmdb'
 import Button from '@/components/Button'
 import formatTitle from '@/utils/formatTitle'
 import WatchlistButton from '@/components/WatchlistButton'
+import PlayButton from '@/components/PlayButton'
 
 export default async function FullWidthBackdrop({
   media,
@@ -66,9 +67,7 @@ export default async function FullWidthBackdrop({
           {withDetails && (
             <>
               {type === MediaType.Movie ? (
-                <Button className='rounded-full w-32 xs:w-40 max-xs:text-sm'>
-                  Play
-                </Button>
+                <PlayButton media={media} />
               ) : (
                 <Button
                   href='#s1'

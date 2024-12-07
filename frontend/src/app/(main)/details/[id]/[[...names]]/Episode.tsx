@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import type { EpisodeWithImageDTO } from '@project/tmdb/types/tv.types'
 import Image from 'next/image'
-import Button from '@/components/Button'
+import PlayButton from '@/components/PlayButton'
 
 export default function Episode({ episode }: { episode: EpisodeWithImageDTO }) {
   const [showDetails, setShowDetails] = useState(false)
@@ -70,9 +70,7 @@ function EpisodeDetails({
             className='object-cover'
           />
         </div>
-        <Button className='rounded-full w-32 xs:w-40 max-xs:text-sm mx-auto py-3 -translate-y-1/2'>
-          Play
-        </Button>
+        <PlayButton className='mx-auto py-3 -translate-y-1/2' media={episode} />
         <p className='text-neutral-400 -mt-5'>
           Episode {episode.episode_number}
         </p>
