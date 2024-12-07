@@ -13,8 +13,10 @@ export interface TorrentInfo {
 export default function processResults(
   results: TorrentData[],
   query: string,
-  limit = 5,
+  limit?: number,
 ) {
+  if (!limit) limit = 5
+
   const magnetLinks: string[] = []
 
   const startTime = Date.now()
