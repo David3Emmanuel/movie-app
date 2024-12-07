@@ -14,7 +14,7 @@ export default function processResults(
   results: TorrentData[],
   query: string,
   limit = 5,
-): TorrentInfo[] {
+) {
   const magnetLinks: string[] = []
 
   const startTime = Date.now()
@@ -36,11 +36,13 @@ export default function processResults(
   const searchResults = searcher.search(query).map((result) => result.item)
 
   console.log(`Found ${searchResults.length} search results`)
+  console.log('Returning', Math.min(limit, searchResults.length), 'results')
+  console.log(searchResults.slice(0, limit).map((result) => result.dn))
 
   return searchResults.slice(0, limit)
 }
 
-function processMagnetLink(link: string) {
+function processMagnetLink(link: string): TorrentInfo {
   const url = new URL(link)
   const params = new URLSearchParams(url.search)
   const info = {

@@ -8,7 +8,7 @@ export type PublicUser = Omit<User, 'passwordHash'> & {
 
 @Schema()
 export class MediaItem {
-  @Prop({ required: true, enum: MediaType }) type: MediaType
+  @Prop({ required: true, enum: MediaType, type: String }) type: MediaType
   @Prop({ required: true }) id: number
 }
 
