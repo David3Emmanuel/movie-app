@@ -1,16 +1,7 @@
 import FullWidthBackdrop from '@/components/FullWidthBackdrop'
-import type {
-  DetailsErrorDTO,
-  MovieDetailsDTO,
-  TVSeriesDetailsDTO,
-} from '@project/tmdb/types/details.types'
 import type { Metadata } from 'next'
 import Season from './Season'
-
-interface DetailsParams {
-  id: string
-  names?: string[]
-}
+import { DetailsParams, fetchDetails } from '@/utils/fetchDetails'
 
 export async function generateMetadata({
   params,
@@ -69,20 +60,4 @@ export default async function DetailsPage({
       </div>
     </>
   )
-}
-
-async function fetchDetails(params: Promise<DetailsParams>) {
-  const { id: type_id } = await params
-  const [type, id] = type_id.split('-')
-
-  const res = await fetch(
-    `${process.env.BACKEND_URL}/moviedb/details/?id=${id}&type=${type}`,
-  )
-  const data = (await res.json()) as
-    | TVSeriesDetailsDTO
-    | MovieDetailsDTO
-    | DetailsErrorDTO
-  if ('success' in data) return null
-
-  return { media: data, type, id }
 }
