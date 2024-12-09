@@ -13,7 +13,11 @@ export default function Player({ torrents }: { torrents: TorrentInfo[] }) {
       {source ? (
         <div className='portrait:w-full landscape:h-full aspect-video mx-auto my-auto'>
           <video controls className='object-contain w-full h-full'>
-            <source src={source.link} type='video/mp4' />
+            <source
+              src={`${
+                process.env.NEXT_PUBLIC_STREAM_URL
+              }?magnet=${encodeURIComponent(source.link)}`}
+            />
             Your browser does not support the video tag.
           </video>
         </div>
