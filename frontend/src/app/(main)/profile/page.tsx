@@ -1,7 +1,7 @@
 import MediaRow from '@/components/MediaRow'
 import { fetchWithAuth } from '@/utils/fetchWithAuth'
-import { ImageType } from '@project/backend/src/moviedb/moviedb.dto'
-import { PublicUser } from '@project/backend/src/schemas/user.schema'
+import { ImageType } from '@project/backend/dist/moviedb/moviedb.dto'
+import { PublicUser } from '@project/backend/dist/schemas/user.schema'
 
 export default async function ProfilePage() {
   const data = (await fetchWithAuth(`${process.env.BACKEND_URL}/users/me`)) as

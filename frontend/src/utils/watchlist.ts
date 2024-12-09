@@ -1,7 +1,7 @@
 'use server'
 
 import { cookies } from 'next/headers'
-import { MediaItem } from '@project/backend/src/schemas/user.schema'
+import { MediaItem } from '@project/backend/dist/schemas/user.schema'
 import { fetchWithAuth } from './fetchWithAuth'
 
 export async function getAccessToken() {
