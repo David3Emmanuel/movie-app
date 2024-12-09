@@ -1,7 +1,7 @@
 {
     "name": "project",
     "scripts": {
-        "install-all": "npm install && npm install -w shared && npm run -w shared build"
+        "install-all": "npm install && npm run -w shared build"
     },
     "private": true,
     "workspaces": [
