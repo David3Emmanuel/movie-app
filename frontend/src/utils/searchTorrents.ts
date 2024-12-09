@@ -1,4 +1,4 @@
-import type {TorrentInfo} from '@project/backend/src/media/processResults'
+import type { TorrentInfo } from '@project/backend/src/media/processResults'
 
 export default async function searchTorrents(searchQuery: string) {
   const res = await fetch(

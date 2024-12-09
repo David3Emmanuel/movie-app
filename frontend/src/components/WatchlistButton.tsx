@@ -6,7 +6,7 @@ import {
   addToWatchlist,
   removeFromWatchlist,
 } from '../utils/watchlist'
-import { MediaItem } from '@project/backend/dist/schemas/user.schema'
+import { MediaItem } from '@project/backend/src/schemas/user.schema'
 import Button from '@/components/Button'
 
 export default function WatchlistButton({

@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Catalogue from '../Catalogue'
 import Input from '@/components/Input'
 import MediaRow from '@/components/MediaRow'
-import { ImageType } from '@project/backend/dist/moviedb/moviedb.dto'
+import { ImageType } from '@project/backend/src/moviedb/moviedb.dto'
 
 export const metadata: Metadata = {
   title: 'Search',

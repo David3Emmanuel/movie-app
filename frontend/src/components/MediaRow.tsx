@@ -1,8 +1,8 @@
 import Media, { MediaFallback } from '@/components/Media'
 import type { MediaDTO } from '@project/tmdb/types/search.types'
-import { ImageType } from '@project/backend/dist/moviedb/moviedb.dto'
+import { ImageType } from '@project/backend/src/moviedb/moviedb.dto'
 import { Suspense } from 'react'
-import type { MediaItem } from '@project/backend/dist/schemas/user.schema'
+import type { MediaItem } from '@project/backend/src/schemas/user.schema'
 import type {
   MovieDetailsDTO,
   TVSeriesDetailsDTO,
