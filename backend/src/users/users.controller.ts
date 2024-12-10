@@ -25,7 +25,7 @@ export class UsersController {
   @Get('check')
   async checkUserExists(@Query('email') email: string) {
     const user = await this.usersService.getUserByEmail(email)
-    return (user || false) && true
+    return { result: (user || false) && true }
   }
 
   @Get('me')

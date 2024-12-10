@@ -8,7 +8,7 @@ export default function AuthPage() {
       `${process.env.BACKEND_URL}/users/check?email=${email}`,
     )
     const data = await res.json()
-    return data ? `/login?email=${email}` : `/signup?email=${email}`
+    return data.result ? `/login?email=${email}` : `/signup?email=${email}`
   }
 
   return (
