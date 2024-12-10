@@ -74,10 +74,10 @@ function Sources({
   return (
     <>
       <h1 className='font-medium text-2xl mt-8'>Available Sources</h1>
-      <ul>
+      <ul className='w-fit mx-auto'>
         {torrents.map((torrent, i) => (
-          <li key={i}>
-            <Button className='nobg' onClick={() => setSource(torrent)}>
+          <li key={i} className='w-full'>
+            <Button className='nobg w-full' onClick={() => setSource(torrent)}>
               {torrent.dn}
             </Button>
           </li>

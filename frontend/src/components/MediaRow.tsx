@@ -47,17 +47,9 @@ async function _MediaRow({ title, mediaItems, imageType }: MediaRowProps) {
     <div className='pl-4 pb-8'>
       <h2 className='text-xl font-semibold mt-3 mb-2'>{title}</h2>
       <div
-        className='grid gap-4 w-full justify-evenly'
-        style={
-          imageType === ImageType.Poster
-            ? {
-                gridTemplateColumns: 'repeat(auto-fit, 12rem)',
-              }
-            : {
-                width: 'calc(100% + 6rem)',
-                gridTemplateColumns: 'repeat(auto-fit, 18rem)',
-              }
-        }
+        className={`media-row ${
+          imageType === ImageType.Poster ? 'poster' : 'backdrop'
+        }`}
       >
         {items.slice(0, 10).map((media, i) => (
           <Media key={i} media={media} imageType={imageType} />
@@ -78,11 +70,9 @@ function MediaRowFallback({
     <div className='pl-4 pb-8'>
       <h2 className='text-xl font-semibold mt-3 mb-2'>{title}</h2>
       <div
-        className='grid gap-4'
-        style={{
-          width: 'calc(100% + 288px)',
-          gridTemplateColumns: 'repeat(auto-fit, 288px)',
-        }}
+        className={`media-row ${
+          imageType === ImageType.Poster ? 'poster' : 'backdrop'
+        }`}
       >
         {Array(5).map((_, i) => (
           <MediaFallback key={i} imageType={imageType} />
