@@ -1,4 +1,4 @@
-import logo from '@/app/icon.svg'
+import logo from '@/app/icon-flat.svg'
 import Image from 'next/image'
 import Link from 'next/link'
 
