@@ -32,6 +32,6 @@ h6 {
     @apply grid-cols-[repeat(auto-fit,12rem)];
   }
   .media-row.backdrop {
-    @apply w-[calc(100%+6rem)] grid-cols-[repeat(auto-fit,18rem)];
+    @apply max-sm:min-w-full max-sm:overflow-x-auto max-sm:grid-rows-2 max-sm:grid-flow-col sm:w-[calc(100%+6rem)] sm:grid-cols-[repeat(auto-fit,18rem)];
   }
 }
