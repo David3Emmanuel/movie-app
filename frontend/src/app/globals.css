@@ -24,4 +24,14 @@ h6 {
   .button.outlined {
     @apply border border-primary text-primary bg-transparent hover:bg-neutral-300 active:bg-neutral-400;
   }
+
+  .media-row {
+    @apply grid gap-4 w-full justify-evenly;
+  }
+  .media-row.poster {
+    @apply grid-cols-[repeat(auto-fit,12rem)];
+  }
+  .media-row.backdrop {
+    @apply w-[calc(100%+6rem)] grid-cols-[repeat(auto-fit,18rem)];
+  }
 }
