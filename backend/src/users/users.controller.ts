@@ -72,11 +72,15 @@ export class UsersController {
   ) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { season, ..._mediaItem } = mediaItem
-    await this.usersService.addToWatchHistory(
-      req.user._id.toString(),
-      _mediaItem,
-    )
-    return { success: true }
+    try {
+      await this.usersService.addToWatchHistory(
+        req.user._id.toString(),
+        _mediaItem,
+      )
+      return { success: true }
+    } catch {
+      return { success: false }
+    }
   }
 
   @Get('watch-history')
