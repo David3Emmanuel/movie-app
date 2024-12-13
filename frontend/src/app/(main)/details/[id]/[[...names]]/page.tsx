@@ -2,6 +2,8 @@ import FullWidthBackdrop from '@/components/FullWidthBackdrop'
 import type { Metadata } from 'next'
 import Season from './Season'
 import { DetailsParams, fetchDetails } from '@/utils/fetchDetails'
+import MediaRow from '@/components/MediaRow'
+import { ImageType } from '@project/backend/dist/moviedb/moviedb.dto'
 
 export async function generateMetadata({
   params,
@@ -30,7 +32,7 @@ export default async function DetailsPage({
   const details = await fetchDetails(params)
   if (!details) return <p>Resource not found</p>
 
-  const { media, id } = details
+  const { media, id, type } = details
 
   const seasons =
     'seasons' in media
@@ -57,6 +59,12 @@ export default async function DetailsPage({
         {seasons.map((season, i) => (
           <Season key={i} season={season} series_id={id} />
         ))}
+        <div className='h-8' />
+        <MediaRow
+          title='Similar to this'
+          imageType={ImageType.Poster}
+          mediaItems={`${process.env.BACKEND_URL}/moviedb/recommend?type=${type}&id=${id}`}
+        />
       </div>
     </>
   )
