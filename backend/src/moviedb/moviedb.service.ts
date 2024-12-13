@@ -36,6 +36,12 @@ export class MovieDBService {
     return this.tmdb.getTVDetails(getDetailsQuery.id)
   }
 
+  getRecommendations(getRecommendationsQuery: GetDetailsQueryDto) {
+    if (getRecommendationsQuery.type === MediaType.Movie)
+      return this.tmdb.getMovieRecommendations(getRecommendationsQuery.id)
+    return this.tmdb.getTVRecommendations(getRecommendationsQuery.id)
+  }
+
   async getImage(getImageQuery: GetImageQueryDto) {
     const imageDetails =
       getImageQuery.type === MediaType.Movie
