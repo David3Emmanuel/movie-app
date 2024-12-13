@@ -25,5 +25,5 @@ export async function fetchDetails(
     | DetailsErrorDTO
   if ('success' in data) return null
 
-  return { media: data, type, id }
+  return { media: data, type, id: parseInt(id) }
 }

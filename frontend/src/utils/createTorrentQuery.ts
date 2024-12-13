@@ -8,7 +8,7 @@ export default function createTorrentQuery(
   details: {
     media: TVSeriesDetailsDTO | MovieDetailsDTO
     type: string
-    id: string
+    id: number
   },
   info: string[],
 ) {
