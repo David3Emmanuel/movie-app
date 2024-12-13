@@ -9,6 +9,7 @@ import {
   User,
 } from 'src/schemas/user.schema'
 import { WatchlistResponseDTO } from './users.dto'
+import * as bcrypt from 'bcrypt'
 
 @Injectable()
 export class UsersService {
@@ -31,12 +32,17 @@ export class UsersService {
   }
 
   async createUser(userDetails: SignUpDTO) {
-    // FIXME hash passwords before storing
-    this.model.create({
+    const salt = await bcrypt.genSalt()
+    const passwordHash = await bcrypt.hash(userDetails.password, salt)
+    await this.model.create({
       ...userDetails,
       password: undefined,
-      passwordHash: userDetails.password,
+      passwordHash,
     })
+  }
+
+  async validatePassword(password: string, hash: string): Promise<boolean> {
+    return bcrypt.compare(password, hash)
   }
 
   private async findUserById(userId: string): Promise<User | null> {

@@ -15,7 +15,6 @@ export default function WatchlistButton({
   mediaItem: MediaItem
 }) {
   const [inWatchlist, setInWatchlist] = useState(false)
-  // IDEA add loading state
 
   useEffect(() => {
     const checkWatchlist = async () => {

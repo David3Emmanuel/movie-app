@@ -13,8 +13,12 @@ export class AuthService {
 
   async validateUser({ email, password }: LoginDTO) {
     const user = await this.usersService.getRawUserByEmail(email)
-    if (user && user.passwordHash === password) return asPublicUser(user)
-
+    if (
+      user &&
+      (await this.usersService.validatePassword(password, user.passwordHash))
+    ) {
+      return asPublicUser(user)
+    }
     return null
   }
 
