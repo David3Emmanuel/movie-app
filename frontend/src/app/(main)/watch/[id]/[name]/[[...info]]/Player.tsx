@@ -9,14 +9,14 @@ export default function Player({
   addToHistory,
 }: {
   torrents: TorrentInfo[]
-  addToHistory: () => void
+  addToHistory: () => Promise<void>
 }) {
   const [source, _setSource] = useState<TorrentInfo | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  function setSource(source: TorrentInfo) {
+  async function setSource(source: TorrentInfo) {
+    await addToHistory()
     _setSource(source)
-    addToHistory()
   }
 
   return (

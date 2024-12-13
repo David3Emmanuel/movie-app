@@ -23,13 +23,24 @@ export default async function WatchPage({
 
   async function addToHistory() {
     'use server'
-    let added = false
-    while (!added) {
+    // let retries = 3
+    // while (retries > 0) {
+    try {
+      const body = { id: details?.id, type: details?.type }
       const data = await fetchWithAuth(
         `${process.env.BACKEND_URL}/users/watch-history`,
+        {
+          method: 'POST',
+          body: JSON.stringify(body),
+        },
+        true,
       )
-      added = Boolean(data.success)
+      if (data.success) return
+    } catch (e) {
+      console.error(e)
+      // retries -= 1
     }
+    // }
   }
 
   return <Player torrents={torrents} addToHistory={addToHistory} />

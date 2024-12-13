@@ -55,7 +55,7 @@ export default async function DetailsPage({
         </h3>
         <p>{media.overview}</p>
         {seasons.map((season, i) => (
-          <Season key={i} season={season} series_id={parseInt(id)} />
+          <Season key={i} season={season} series_id={id} />
         ))}
       </div>
     </>
