@@ -18,6 +18,7 @@ export class User {
   @Prop({ required: true }) username: string
   @Prop({ required: true }) passwordHash: string
   @Prop([MediaItem]) watchlist: MediaItem[]
+  @Prop([MediaItem]) watchHistory: MediaItem[]
 }
 
 export function extractUser(userDocument: Document<unknown, object, User>) {

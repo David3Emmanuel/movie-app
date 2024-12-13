@@ -93,4 +93,15 @@ export class UsersService {
       .exec()
     return { success: true, message: 'Removed', media_item: mediaItem }
   }
+
+  async addToWatchHistory(userId: string, mediaItem: MediaItem): Promise<void> {
+    await this.model
+      .updateOne({ _id: userId }, { $addToSet: { watchHistory: mediaItem } })
+      .exec()
+  }
+
+  async getWatchHistory(userId: string): Promise<MediaItem[]> {
+    const user = await this.findUserById(userId)
+    return user ? user.watchHistory : []
+  }
 }

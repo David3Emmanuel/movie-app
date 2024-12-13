@@ -1,3 +1,4 @@
+import { MediaType } from '@project/tmdb'
 import type {
   TVSeriesDetailsDTO,
   MovieDetailsDTO,
@@ -9,9 +10,11 @@ export interface DetailsParams {
   names?: string[]
 }
 
-export async function fetchDetails(params: Promise<DetailsParams> | DetailsParams) {
+export async function fetchDetails(
+  params: Promise<DetailsParams> | DetailsParams,
+) {
   const { id: type_id } = await params
-  const [type, id] = type_id.split('-')
+  const [type, id] = type_id.split('-') as [MediaType, string]
 
   const res = await fetch(
     `${process.env.BACKEND_URL}/moviedb/details/?id=${id}&type=${type}`,

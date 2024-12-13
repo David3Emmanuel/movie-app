@@ -4,9 +4,20 @@ import { TorrentInfo } from '@project/backend/src/media/processResults'
 import { useState } from 'react'
 import Button from '@/components/Button'
 
-export default function Player({ torrents }: { torrents: TorrentInfo[] }) {
-  const [source, setSource] = useState<TorrentInfo | null>(null)
+export default function Player({
+  torrents,
+  addToHistory,
+}: {
+  torrents: TorrentInfo[]
+  addToHistory: () => void
+}) {
+  const [source, _setSource] = useState<TorrentInfo | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
+
+  function setSource(source: TorrentInfo) {
+    _setSource(source)
+    addToHistory()
+  }
 
   return (
     <div className='pt-16 flex flex-col items-center justify-center h-screen overflow-y-auto'>

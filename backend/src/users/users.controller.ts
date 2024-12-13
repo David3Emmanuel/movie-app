@@ -63,4 +63,25 @@ export class UsersController {
       type: removeWatchlistDTO.type,
     })
   }
+
+  @Post('watch-history')
+  @UseGuards(JWTAuthGuard)
+  async addToWatchHistory(
+    @Request() req: Request & { user: PublicUser },
+    @Body() mediaItem: GetDetailsQueryDto,
+  ) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { season, ..._mediaItem } = mediaItem
+    await this.usersService.addToWatchHistory(
+      req.user._id.toString(),
+      _mediaItem,
+    )
+    return { success: true }
+  }
+
+  @Get('watch-history')
+  @UseGuards(JWTAuthGuard)
+  getWatchHistory(@Request() req: Request & { user: PublicUser }) {
+    return this.usersService.getWatchHistory(req.user._id.toString()) ?? []
+  }
 }
