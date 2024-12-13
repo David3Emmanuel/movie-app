@@ -93,4 +93,28 @@ export class UsersService {
       .exec()
     return { success: true, message: 'Removed', media_item: mediaItem }
   }
+
+  async addToWatchHistory(userId: string, mediaItem: MediaItem): Promise<void> {
+    const user = await this.findUserById(userId)
+    if (user) {
+      const isInWatchHistory = user.watchHistory.some(
+        (item) => item.id === mediaItem.id && item.type === mediaItem.type,
+      )
+      if (!isInWatchHistory) {
+        await this.model
+          .updateOne(
+            { _id: userId },
+            { $addToSet: { watchHistory: mediaItem } },
+          )
+          .exec()
+      }
+    } else {
+      throw new Error('user does not exist')
+    }
+  }
+
+  async getWatchHistory(userId: string): Promise<MediaItem[]> {
+    const user = await this.findUserById(userId)
+    return user ? user.watchHistory : []
+  }
 }
