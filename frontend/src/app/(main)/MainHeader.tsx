@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 import { cookies as _cookies } from 'next/headers'
 import Link from 'next/link'
 import SearchLink from './SearchLink'
+import Sidebar from '@/components/Sidebar'
 
 export default async function MainHeader() {
   const cookies = await _cookies()
@@ -43,11 +44,38 @@ export default async function MainHeader() {
           </Button>
         )}
         <Button
-          className='text-neutral-700 bg-white hover:bg-neutral-200 active:bg-neutral-300 w-24 p-2 rounded-full text-sm'
+          className='hidden xs:flex text-neutral-700 bg-white hover:bg-neutral-200 active:bg-neutral-300 w-24 p-2 rounded-full text-sm'
           onClick={handleLogout}
         >
           Logout
         </Button>
+        <Sidebar>
+          <Link href='/home' className='text-xl'>
+            Home
+          </Link>
+          <SearchLink show />
+          {username ? (
+            <Button
+              href='/profile'
+              className='nobg min-w-24 p-0 rounded-full hover:text-neutral-700 text-xl'
+            >
+              {username}
+            </Button>
+          ) : (
+            <Button
+              href='/auth'
+              className='nobg min-w-24 px-6 py-2 rounded-full hover:text-neutral-700 text-xl'
+            >
+              Sign In
+            </Button>
+          )}
+          <Button
+            className='text-neutral-700 bg-white hover:bg-neutral-200 active:bg-neutral-300 w-24 p-2 rounded-full text-base mx-auto my-6'
+            onClick={handleLogout}
+          >
+            Logout
+          </Button>
+        </Sidebar>
       </div>
     </header>
   )
