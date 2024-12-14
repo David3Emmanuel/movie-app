@@ -7,6 +7,7 @@ import type {
   MovieDetailsDTO,
   TVSeriesDetailsDTO,
 } from '@project/tmdb/types/details.types'
+import { fetchWithAuth } from '@/utils/fetchWithAuth'
 
 interface MediaRowProps {
   title: string
@@ -24,24 +25,30 @@ export default function MediaRow(props: MediaRowProps) {
 
 async function _MediaRow({ title, mediaItems, imageType }: MediaRowProps) {
   let items: (MediaDTO | MovieDetailsDTO | TVSeriesDetailsDTO)[]
-  if (typeof mediaItems === 'string') {
-    const res = await fetch(mediaItems)
-    items = await res.json()
-  } else
-    items = await Promise.all(
-      mediaItems.map((item) => {
-        if ('type' in item) {
-          return fetch(
-            `${process.env.BACKEND_URL}/moviedb/details?type=${item.type}&id=${item.id}`,
-          )
-            .then((res) => res.json())
-            .then((data) => {
-              if ('success' in data) throw data
-              return data as MovieDetailsDTO | TVSeriesDetailsDTO
-            })
-        } else return item
-      }),
-    )
+  items =
+    typeof mediaItems === 'string'
+      ? await fetchWithAuth(mediaItems)
+      : mediaItems
+  items = await Promise.all(
+    items.map((_item) => {
+      const item =
+        'recommendedItem' in _item
+          ? (_item.recommendedItem as MediaItem)
+          : _item
+      if ('type' in item) {
+        return fetch(
+          `${process.env.BACKEND_URL}/moviedb/details?type=${item.type}&id=${item.id}`,
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            if ('success' in data) throw data
+            return data as MovieDetailsDTO | TVSeriesDetailsDTO
+          })
+      } else return item
+    }),
+  )
+
+  if (!items.length) return null
 
   return (
     <div className='pl-4 pb-8'>
