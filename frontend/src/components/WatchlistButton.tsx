@@ -41,7 +41,7 @@ export default function WatchlistButton({
       <p className='hidden xs:block'>
         {inWatchlist ? 'Remove from watchlist' : 'Add to watchlist'}
       </p>
-      <span className='material-symbols-outlined max-xs:text-5xl max-xs:logo-lg max-xs:hover:text-neutral-300 max-xs:active:text-neutral-400 max-xs:hover:scale-105'>
+      <span className='material-symbols-outlined max-xs:scale-75 max-xs:text-5xl max-xs:logo-lg max-xs:hover:text-neutral-300 max-xs:active:text-neutral-400 max-xs:hover:scale-105'>
         {inWatchlist ? 'remove_circle' : 'add_circle'}
       </span>
     </Button>
