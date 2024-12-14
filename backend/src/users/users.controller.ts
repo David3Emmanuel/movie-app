@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common'
 import { JWTAuthGuard } from 'src/auth/jwt-auth.guard'
-import { PublicUser, Recommendation } from 'src/schemas/user.schema'
+import { BasicUserInfo, Recommendation } from 'src/schemas/user.schema'
 import { UsersService } from './users.service'
 import { GetDetailsQueryDto } from 'src/moviedb/moviedb.dto'
 
@@ -30,14 +30,14 @@ export class UsersController {
 
   @Get('me')
   @UseGuards(JWTAuthGuard)
-  async getCurrentUser(@Request() req: Request & { user: PublicUser }) {
+  async getCurrentUser(@Request() req: Request & { user: BasicUserInfo }) {
     const user = await this.usersService.getUserByEmail(req.user.email)
     return user || { success: false, message: 'User does not exist' }
   }
 
   @Get('watchlist')
   @UseGuards(JWTAuthGuard)
-  async getWatchlist(@Request() req: Request & { user: PublicUser }) {
+  async getWatchlist(@Request() req: Request & { user: BasicUserInfo }) {
     const user = await this.usersService.getRawUserByEmail(req.user.email)
     if (user) return user.watchlist
     return { success: false, message: 'User does not exist' }
@@ -46,7 +46,7 @@ export class UsersController {
   @Post('watchlist')
   @UseGuards(JWTAuthGuard)
   addToWatchlist(
-    @Request() req: Request & { user: PublicUser },
+    @Request() req: Request & { user: BasicUserInfo },
     @Body() mediaItem: GetDetailsQueryDto,
   ) {
     return this.usersService.addToWatchlist(req.user._id.toString(), mediaItem)
@@ -55,7 +55,7 @@ export class UsersController {
   @Delete('watchlist')
   @UseGuards(JWTAuthGuard)
   removeFromWatchlist(
-    @Request() req: Request & { user: PublicUser },
+    @Request() req: Request & { user: BasicUserInfo },
     @Query() removeWatchlistDTO: GetDetailsQueryDto,
   ) {
     return this.usersService.removeFromWatchlist(req.user._id.toString(), {
@@ -67,7 +67,7 @@ export class UsersController {
   @Post('watch-history')
   @UseGuards(JWTAuthGuard)
   async addToWatchHistory(
-    @Request() req: Request & { user: PublicUser },
+    @Request() req: Request & { user: BasicUserInfo },
     @Body() mediaItem: GetDetailsQueryDto,
   ) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -85,14 +85,14 @@ export class UsersController {
 
   @Get('watch-history')
   @UseGuards(JWTAuthGuard)
-  getWatchHistory(@Request() req: Request & { user: PublicUser }) {
+  getWatchHistory(@Request() req: Request & { user: BasicUserInfo }) {
     return this.usersService.getWatchHistory(req.user._id.toString()) ?? []
   }
 
   @Get('recommendations')
   @UseGuards(JWTAuthGuard)
   getUserRecommendations(
-    @Request() req: Request & { user: PublicUser },
+    @Request() req: Request & { user: BasicUserInfo },
   ): Promise<Recommendation[]> {
     return this.usersService.getRecommendations(req.user._id.toString())
   }

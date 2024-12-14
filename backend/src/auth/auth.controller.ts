@@ -10,7 +10,7 @@ import {
 import { AuthService } from './auth.service'
 import { LocalAuthGuard } from './local-auth.guard'
 import { SignUpDTO } from './auth.dto'
-import { PublicUser } from 'src/schemas/user.schema'
+import { BasicUserInfo } from 'src/schemas/user.schema'
 
 @Controller('auth')
 export class AuthController {
@@ -19,7 +19,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('login')
   @UseGuards(LocalAuthGuard)
-  login(@Request() req: Request & { user: PublicUser }) {
+  login(@Request() req: Request & { user: BasicUserInfo }) {
     return this.authService.login(req.user)
   }
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { PassportStrategy } from '@nestjs/passport'
 import { ExtractJwt, Strategy } from 'passport-jwt'
-import { PublicUser } from 'src/schemas/user.schema'
+import { BasicUserInfo } from 'src/schemas/user.schema'
 
 @Injectable()
 export class JWTStrategy extends PassportStrategy(Strategy) {
@@ -13,9 +13,9 @@ export class JWTStrategy extends PassportStrategy(Strategy) {
     })
   }
 
-  validate(payload: PublicUser & { iat: number; exp: number }) {
+  validate(payload: BasicUserInfo & { iat: number; exp: number }) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { iat, exp, ...rest } = payload
-    return rest as PublicUser
+    return rest as BasicUserInfo
   }
 }

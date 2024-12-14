@@ -2,7 +2,7 @@ import { Injectable, ConflictException } from '@nestjs/common'
 import { UsersService } from 'src/users/users.service'
 import { JwtService } from '@nestjs/jwt'
 import { LoginDTO, SignUpDTO } from './auth.dto'
-import { asPublicUser, PublicUser } from 'src/schemas/user.schema'
+import { asBasicUserInfo, BasicUserInfo } from 'src/schemas/user.schema'
 
 @Injectable()
 export class AuthService {
@@ -17,7 +17,7 @@ export class AuthService {
       user &&
       (await this.usersService.validatePassword(password, user.passwordHash))
     ) {
-      return asPublicUser(user)
+      return asBasicUserInfo(user)
     }
     return null
   }
@@ -28,7 +28,7 @@ export class AuthService {
     this.usersService.createUser(userDetails)
   }
 
-  async login(user: PublicUser) {
+  async login(user: BasicUserInfo) {
     return {
       access_token: this.jwtService.sign(user),
     }
