@@ -12,6 +12,7 @@ import { WatchlistResponseDTO } from './users.dto'
 import * as bcrypt from 'bcrypt'
 import { MovieDBService } from 'src/moviedb/moviedb.service'
 import { MovieDTO, TVSeriesDTO } from '@project/tmdb/types/search.types'
+import { shuffle } from 'lodash'
 
 interface Recommendation {
   recommendedItem: MediaItem
@@ -165,6 +166,6 @@ export class UsersService {
 
   async getRecommendations(userId: string): Promise<Recommendation[]> {
     const user = await this.findUserById(userId)
-    return user ? user.recommendations : []
+    return user ? shuffle(user.recommendations) : []
   }
 }
