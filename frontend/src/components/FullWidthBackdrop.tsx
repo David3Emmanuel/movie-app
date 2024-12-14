@@ -13,6 +13,7 @@ import Button from '@/components/Button'
 import formatTitle from '@/utils/formatTitle'
 import WatchlistButton from '@/components/WatchlistButton'
 import PlayButton from '@/components/PlayButton'
+import ShareButton from '@/components/ShareButton'
 
 export default async function FullWidthBackdrop({
   media,
@@ -87,6 +88,7 @@ export default async function FullWidthBackdrop({
               More info
             </Button>
           )}
+          <ShareButton title={title} mediaItem={{ type, id: media.id }} />
         </div>
       </div>
     </div>
