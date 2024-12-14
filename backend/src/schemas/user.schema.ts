@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { Document, HydratedDocument, Types } from 'mongoose'
 import { MediaType } from '@project/tmdb'
 
-export type PublicUser = Omit<User, 'passwordHash'> & {
+export type PublicUser = Pick<User, 'email' | 'username'> & {
   _id: Types.ObjectId
 }
 
@@ -38,8 +38,7 @@ export function asPublicUser(
   },
 ): PublicUser {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { passwordHash, ...rest } = user
-  return rest
+  return { email: user.email, username: user.username, _id: user._id }
 }
 
 export const UserSchema = SchemaFactory.createForClass(User)
