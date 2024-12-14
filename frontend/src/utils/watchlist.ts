@@ -1,17 +1,7 @@
 'use server'
 
-import { cookies } from 'next/headers'
 import { MediaItem } from '@project/backend/dist/schemas/user.schema'
 import { fetchWithAuth } from './fetchWithAuth'
-
-export async function getAccessToken() {
-  const cookieStore = await cookies()
-  const accessToken = cookieStore.get('access_token')!.value
-  if (!accessToken) {
-    throw new Error('No access token found')
-  }
-  return accessToken
-}
 
 export async function getWatchlist() {
   const data = await fetchWithAuth(`${process.env.BACKEND_URL}/users/watchlist`)

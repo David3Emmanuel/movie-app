@@ -1,4 +1,4 @@
-import { getAccessToken } from './watchlist'
+import { getAccessToken } from './getAccessToken'
 
 export async function fetchWithAuth(
   url: string,
