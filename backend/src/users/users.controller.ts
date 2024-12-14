@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common'
 import { JWTAuthGuard } from 'src/auth/jwt-auth.guard'
-import { PublicUser } from 'src/schemas/user.schema'
+import { PublicUser, Recommendation } from 'src/schemas/user.schema'
 import { UsersService } from './users.service'
 import { GetDetailsQueryDto } from 'src/moviedb/moviedb.dto'
 
@@ -87,5 +87,13 @@ export class UsersController {
   @UseGuards(JWTAuthGuard)
   getWatchHistory(@Request() req: Request & { user: PublicUser }) {
     return this.usersService.getWatchHistory(req.user._id.toString()) ?? []
+  }
+
+  @Get('recommendations')
+  @UseGuards(JWTAuthGuard)
+  getUserRecommendations(
+    @Request() req: Request & { user: PublicUser },
+  ): Promise<Recommendation[]> {
+    return this.usersService.getRecommendations(req.user._id.toString())
   }
 }

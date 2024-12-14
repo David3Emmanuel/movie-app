@@ -18,6 +18,10 @@ export default async function HomePage() {
     return (
       <>
         {firstMedia && <FullWidthBackdrop media={firstMedia} />}
+        <MediaRow
+          title='For You'
+          mediaItems={`${process.env.BACKEND_URL}/users/recommendations`}
+        />
         <MediaRow title='Trending Now' mediaItems={trending} />
         <Catalogue withoutTrending />
       </>

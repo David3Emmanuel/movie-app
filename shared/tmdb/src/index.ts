@@ -6,6 +6,11 @@ import {
 import type { MovieDetailsDTO, TVSeriesDetailsDTO } from './details.types'
 import { getImage, getImageConfig } from './image'
 import type { ImageConfig } from './image.types'
+import {
+  createMovieRecommendationsUrl,
+  createTVRecommendationsUrl,
+  getRecommendations,
+} from './recommendations'
 import { createSearchUrl, fetchAllPages } from './search'
 import type { MovieDTO, MultiDTO, TVSeriesDTO } from './search.types'
 import { createTrendingUrl } from './trending'
@@ -83,6 +88,16 @@ export class TMDb {
   getTVDetails(id: number) {
     const url = createTVDetailsUrl(this.apiKey, id)
     return getDetails<TVSeriesDetailsDTO>(url)
+  }
+
+  getMovieRecommendations(id: number) {
+    const url = createMovieRecommendationsUrl(this.apiKey, id)
+    return getRecommendations<MovieDTO>(url)
+  }
+
+  getTVRecommendations(id: number) {
+    const url = createTVRecommendationsUrl(this.apiKey, id)
+    return getRecommendations<TVSeriesDTO>(url)
   }
 
   getMovieImage(id: number) {

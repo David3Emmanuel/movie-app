@@ -5,5 +5,6 @@ import { MovieDBService } from './moviedb.service'
 @Module({
   controllers: [MovieDBController],
   providers: [MovieDBService],
+  exports: [MovieDBService],
 })
 export class MovieDBModule {}

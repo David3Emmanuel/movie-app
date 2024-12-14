@@ -10,10 +10,21 @@ import {
 } from 'src/schemas/user.schema'
 import { WatchlistResponseDTO } from './users.dto'
 import * as bcrypt from 'bcrypt'
+import { MovieDBService } from 'src/moviedb/moviedb.service'
+import { MovieDTO, TVSeriesDTO } from '@project/tmdb/types/search.types'
+import { shuffle } from 'lodash'
+
+interface Recommendation {
+  recommendedItem: MediaItem
+  source: MediaItem
+}
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User.name) private model: Model<User>) {}
+  constructor(
+    @InjectModel(User.name) private model: Model<User>,
+    private moviedbService: MovieDBService,
+  ) {}
 
   async getUsers() {
     return (await this.model.find().exec()).map((userDocument) =>
@@ -95,18 +106,36 @@ export class UsersService {
   }
 
   async addToWatchHistory(userId: string, mediaItem: MediaItem): Promise<void> {
+    mediaItem = { type: mediaItem.type, id: mediaItem.id }
     const user = await this.findUserById(userId)
     if (user) {
       const isInWatchHistory = user.watchHistory.some(
         (item) => item.id === mediaItem.id && item.type === mediaItem.type,
       )
       if (!isInWatchHistory) {
-        await this.model
-          .updateOne(
-            { _id: userId },
-            { $addToSet: { watchHistory: mediaItem } },
-          )
-          .exec()
+        const recommendations = await this.moviedbService.getRecommendations({
+          id: mediaItem.id,
+          type: mediaItem.type,
+        })
+        const formattedRecommendations = recommendations.map(
+          (rec: MovieDTO | TVSeriesDTO) => ({
+            recommendedItem: {
+              id: rec.id,
+              type: mediaItem.type,
+            },
+            source: mediaItem,
+          }),
+        )
+
+        await Promise.all([
+          this.addRecommendation(userId, formattedRecommendations),
+          this.model
+            .updateOne(
+              { _id: userId },
+              { $addToSet: { watchHistory: mediaItem } },
+            )
+            .exec(),
+        ])
       }
     } else {
       throw new Error('user does not exist')
@@ -116,5 +145,27 @@ export class UsersService {
   async getWatchHistory(userId: string): Promise<MediaItem[]> {
     const user = await this.findUserById(userId)
     return user ? user.watchHistory : []
+  }
+
+  async addRecommendation(
+    userId: string,
+    recommendations: Recommendation[],
+  ): Promise<void> {
+    const user = await this.findUserById(userId)
+    if (user) {
+      await this.model
+        .updateOne(
+          { _id: userId },
+          { $addToSet: { recommendations: { $each: recommendations } } },
+        )
+        .exec()
+    } else {
+      throw new Error('user does not exist')
+    }
+  }
+
+  async getRecommendations(userId: string): Promise<Recommendation[]> {
+    const user = await this.findUserById(userId)
+    return user ? shuffle(user.recommendations) : []
   }
 }

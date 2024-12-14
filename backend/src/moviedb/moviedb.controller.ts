@@ -36,4 +36,9 @@ export class MovieDBController {
   getTrending(@Query() getTrendingQuery: GetTrendingQueryDto) {
     return this.service.getTrending(getTrendingQuery)
   }
+
+  @Get('recommend')
+  getRecommendations(@Query() getRecommendationsQuery: GetDetailsQueryDto) {
+    return this.service.getRecommendations(getRecommendationsQuery)
+  }
 }

@@ -13,12 +13,19 @@ export class MediaItem {
 }
 
 @Schema()
+export class Recommendation {
+  @Prop({ required: true, type: MediaItem }) recommendedItem: MediaItem
+  @Prop({ required: true, type: MediaItem }) source: MediaItem
+}
+
+@Schema()
 export class User {
   @Prop({ required: true, match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ }) email: string
   @Prop({ required: true }) username: string
   @Prop({ required: true }) passwordHash: string
   @Prop([MediaItem]) watchlist: MediaItem[]
   @Prop([MediaItem]) watchHistory: MediaItem[]
+  @Prop({ childSchemas: Recommendation }) recommendations: Recommendation[]
 }
 
 export function extractUser(userDocument: Document<unknown, object, User>) {
