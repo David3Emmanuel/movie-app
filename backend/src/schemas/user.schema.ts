@@ -15,9 +15,7 @@ export class MediaItem {
 @Schema()
 export class Recommendation {
   @Prop({ required: true, type: MediaItem }) recommendedItem: MediaItem
-  // @Prop({ type: MediaItem }) recommendedItem: MediaItem
   @Prop({ required: true, type: MediaItem }) source: MediaItem
-  // @Prop({ type: MediaItem }) source: MediaItem
 }
 
 @Schema()
